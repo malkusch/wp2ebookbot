@@ -9,15 +9,18 @@ See https://www.reddit.com/r/Lightbulb/comments/7cfe6r/make_a_free_ebook_for_eac
 - [x] Convert EPUB into AZW (See [Calibre](https://www.calibre-ebook.com/) or [KindleGen](https://www.amazon.com/gp/feature.html?docId=1000234621))
 
 
+## Shared
+
+- [ ] Integrate blocking Reddit API to respect their [rate limit](https://github.com/reddit/reddit/wiki/API#rules)
+
 ## E-Book generator
 
 - [x] Design model
-- [ ] Build EBook from Reddit Comment
-- [ ] Convert to EPUB
-- [ ] Validate generated EPUB with [EpubCheck](https://github.com/IDPF/epubcheck)
-- [ ] Convert to AZW
-- [ ] Publish on S3
 - [x] Implement PublishRedditCommentApplicationService
+- [ ] Implement RedditCommentRepository
+- [ ] Implement EBookFactory for EPUB and MOBI
+- [ ] Implement S3PublishFormatService
+- [ ] Implement an integration test for publishing a comment on S3
 
 ## Reddit bot
 
