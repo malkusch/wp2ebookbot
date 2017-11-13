@@ -1,4 +1,4 @@
-package de.malkusch.wp2ebookbot.publisher.application;
+package de.malkusch.wp2ebookbot.publisher.application.publish;
 
 import java.io.IOException;
 
