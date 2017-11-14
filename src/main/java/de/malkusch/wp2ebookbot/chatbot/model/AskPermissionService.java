@@ -13,8 +13,8 @@ public final class AskPermissionService {
     final String question;
     private Instant lastSince;
 
-    protected AskPermissionService(WritingPromptRepository writingPrompts, WritingPrompSpecification wpSpec,
-            String question, RedditAPI reddit) {
+    AskPermissionService(WritingPromptRepository writingPrompts, WritingPrompSpecification wpSpec, String question,
+            RedditAPI reddit) {
 
         this.writingPrompts = writingPrompts;
         this.wpSpec = wpSpec;

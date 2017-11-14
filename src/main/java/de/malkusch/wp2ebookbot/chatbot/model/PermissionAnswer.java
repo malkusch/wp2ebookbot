@@ -12,4 +12,20 @@ public final class PermissionAnswer {
         this.answer = requireNonNull(answer);
     }
 
+    @Override
+    public int hashCode() {
+        return topCommentId.hashCode() + answer.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PermissionAnswer) {
+            PermissionAnswer other = (PermissionAnswer) obj;
+            return topCommentId.equals(other.topCommentId) && answer.equals(other.answer);
+
+        } else {
+            return false;
+        }
+    }
+
 }
