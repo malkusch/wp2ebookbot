@@ -27,7 +27,6 @@ See https://www.reddit.com/r/Lightbulb/comments/7cfe6r/make_a_free_ebook_for_eac
 
 - [x] Design model
 - [x] UC: Identify new comments and ask author for permission
-- [ ] UC: Understand author's "Yes" reply and start EBook generation
-- [ ] UC: Publish generated EBooks
+- [X] UC: Understand author's permission reply and start EBook publication
 - [ ] UC: Understand author's unpublish whish and start Unpublishing
 

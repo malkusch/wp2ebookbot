@@ -5,15 +5,15 @@ import static java.util.Arrays.stream;
 import java.io.IOException;
 import java.time.Instant;;
 
-public final class AskNewWritingPromptsService {
+public final class AskPermissionService {
 
     private final WritingPromptRepository writingPrompts;
     private final WritingPrompSpecification wpSpec;
     private final RedditAPI reddit;
-    private final String question;
+    final String question;
     private Instant lastSince;
 
-    protected AskNewWritingPromptsService(WritingPromptRepository writingPrompts, WritingPrompSpecification wpSpec,
+    protected AskPermissionService(WritingPromptRepository writingPrompts, WritingPrompSpecification wpSpec,
             String question, RedditAPI reddit) {
 
         this.writingPrompts = writingPrompts;
@@ -23,7 +23,7 @@ public final class AskNewWritingPromptsService {
         this.lastSince = Instant.now();
     }
 
-    public void askNewWritingPromptsAuthorsForPermission() throws IOException {
+    public void askNewTopCommentsAuthorForPermission() throws IOException {
         WritingPrompt[] newWPs = writingPrompts.findEligibleWritingPromptsSince(lastSince, wpSpec);
         lastSince = Instant.now();
         stream(newWPs).filter(wpSpec::IsSatisfiedBy).forEach(wp -> reddit.answerComment(wp.topComment.id, question));

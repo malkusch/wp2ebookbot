@@ -12,8 +12,10 @@ public abstract class WritingPromptRepository {
         return new Comment(id, author, votes, words);
     }
 
-    protected final WritingPrompt hydrateWritingPrompt(WritingPromptId id, Votes votes, Comment topComment) {
-        return new WritingPrompt(id, votes, topComment);
+    protected final WritingPrompt hydrateWritingPrompt(WritingPromptId id, Title title, Votes votes,
+            Comment topComment) {
+
+        return new WritingPrompt(id, title, votes, topComment);
     }
 
 }

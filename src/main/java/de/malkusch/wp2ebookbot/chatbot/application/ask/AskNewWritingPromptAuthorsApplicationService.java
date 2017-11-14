@@ -2,18 +2,18 @@ package de.malkusch.wp2ebookbot.chatbot.application.ask;
 
 import java.io.IOException;
 
-import de.malkusch.wp2ebookbot.chatbot.model.AskNewWritingPromptsService;
+import de.malkusch.wp2ebookbot.chatbot.model.AskPermissionService;
 
 public final class AskNewWritingPromptAuthorsApplicationService {
 
-    private final AskNewWritingPromptsService askService;
+    private final AskPermissionService askService;
 
-    AskNewWritingPromptAuthorsApplicationService(AskNewWritingPromptsService findNewWritingPromptsService) {
+    AskNewWritingPromptAuthorsApplicationService(AskPermissionService findNewWritingPromptsService) {
         this.askService = findNewWritingPromptsService;
     }
 
     public void askNewWritingPromptAuthorsForPermission() throws IOException {
-        askService.askNewWritingPromptsAuthorsForPermission();
+        askService.askNewTopCommentsAuthorForPermission();
     }
 
 }
