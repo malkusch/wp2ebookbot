@@ -8,12 +8,14 @@ import java.io.InputStream;
 public final class Comment implements AutoCloseable {
 
     final CommentId id;
+    final PermissionId permissionId;
     final ThreadTitle title;
     final Author author;
     final InputStream body;
 
-    Comment(CommentId id, ThreadTitle title, Author author, InputStream body) {
+    Comment(CommentId id, PermissionId permissionId, ThreadTitle title, Author author, InputStream body) {
         this.id = requireNonNull(id);
+        this.permissionId = requireNonNull(permissionId);
         this.title = requireNonNull(title);
         this.author = requireNonNull(author);
         this.body = requireNonNull(body);

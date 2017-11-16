@@ -2,26 +2,28 @@ package de.malkusch.wp2ebookbot.chatbot.model;
 
 import static java.util.Objects.requireNonNull;
 
-public final class PermissionAnswer {
+public final class Permission {
 
+    final PermissionId permissionId;
     final CommentId topCommentId;
     final String answer;
 
-    PermissionAnswer(CommentId topCommentId, String answer) {
+    Permission(PermissionId permissionId, CommentId topCommentId, String answer) {
+        this.permissionId = requireNonNull(permissionId);
         this.topCommentId = requireNonNull(topCommentId);
         this.answer = requireNonNull(answer);
     }
 
     @Override
     public int hashCode() {
-        return topCommentId.hashCode() + answer.hashCode();
+        return permissionId.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof PermissionAnswer) {
-            PermissionAnswer other = (PermissionAnswer) obj;
-            return topCommentId.equals(other.topCommentId) && answer.equals(other.answer);
+        if (obj instanceof Permission) {
+            Permission other = (Permission) obj;
+            return permissionId.equals(other.permissionId);
 
         } else {
             return false;

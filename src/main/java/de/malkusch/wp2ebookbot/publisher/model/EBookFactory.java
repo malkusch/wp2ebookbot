@@ -23,7 +23,7 @@ public abstract class EBookFactory {
         UnpublishedFormat[] unpublished = generateUnpublishedFormats(comment.id, comment.title, comment.author,
                 comment.body);
         PublishedFormat[] published = publish(unpublished);
-        EBook book = new EBook(comment.id, published);
+        EBook book = new EBook(comment.id, comment.permissionId, published);
 
         eventPublisher.publish(new EBookPublished(book));
         return book;

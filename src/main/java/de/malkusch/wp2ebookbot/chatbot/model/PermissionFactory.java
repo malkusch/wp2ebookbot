@@ -6,17 +6,17 @@ import static java.util.stream.Collectors.toList;
 import java.util.Collection;
 import java.util.Optional;
 
-public final class PermissionAnswerFactory {
+public final class PermissionFactory {
 
     private final RedditAPI reddit;
     private final AskPermissionService askService;
 
-    PermissionAnswerFactory(RedditAPI reddit, AskPermissionService askService) {
+    PermissionFactory(RedditAPI reddit, AskPermissionService askService) {
         this.reddit = reddit;
         this.askService = askService;
     }
 
-    public Collection<PermissionAnswer> fromInbox(Collection<InboxMessage> messages) {
+    public Collection<Permission> fromInbox(Collection<InboxMessage> messages) {
         return requireNonNull(messages).stream().filter(this::isPermissionAnswer).map(this::convert).collect(toList());
     }
 
@@ -25,9 +25,10 @@ public final class PermissionAnswerFactory {
                 && isFromTopCommentAuthor(message);
     }
 
-    private PermissionAnswer convert(InboxMessage message) {
+    private Permission convert(InboxMessage message) {
         CommentId topCommentId = topCommentContext(message).map(c -> c.commentId).get();
-        return new PermissionAnswer(topCommentId, message.message);
+        PermissionId permissionId = new PermissionId(message.commentId);
+        return new Permission(permissionId, topCommentId, message.message);
     }
 
     private boolean containsPermissionQuestion(InboxMessage message) {

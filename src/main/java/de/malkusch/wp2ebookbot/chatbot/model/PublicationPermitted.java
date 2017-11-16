@@ -4,10 +4,12 @@ import de.malkusch.wp2ebookbot.shared.infrastructure.event.Event;
 
 public final class PublicationPermitted implements Event {
 
-    public final String commentId;
+    public final String topCommentId;
+    public final String permissionId;
 
-    PublicationPermitted(CommentId commentId) {
-        this.commentId = commentId.toString();
+    PublicationPermitted(Permission answer) {
+        topCommentId = answer.topCommentId.toString();
+        permissionId = answer.permissionId.toString();
     }
 
 }

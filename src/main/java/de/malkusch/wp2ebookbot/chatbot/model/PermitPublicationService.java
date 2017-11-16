@@ -14,9 +14,9 @@ public final class PermitPublicationService {
         this.publisher = publisher;
     }
 
-    public void publishOnPermission(PermissionAnswer answer) {
+    public void publishOnPermission(Permission answer) {
         requireNonNull(answer);
-        nlpService.isPermitted(answer.answer, () -> publisher.publish(new PublicationPermitted(answer.topCommentId)));
+        nlpService.isPermitted(answer.answer, () -> publisher.publish(new PublicationPermitted(answer)));
     }
 
 }

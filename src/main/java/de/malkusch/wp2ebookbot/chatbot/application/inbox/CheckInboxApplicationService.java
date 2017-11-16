@@ -5,13 +5,13 @@ import java.util.Collection;
 
 import de.malkusch.wp2ebookbot.chatbot.model.InboxMessage;
 import de.malkusch.wp2ebookbot.chatbot.model.InboxMessageRepository;
-import de.malkusch.wp2ebookbot.chatbot.model.PermissionAnswer;
-import de.malkusch.wp2ebookbot.chatbot.model.PermissionAnswerFactory;
+import de.malkusch.wp2ebookbot.chatbot.model.Permission;
+import de.malkusch.wp2ebookbot.chatbot.model.PermissionFactory;
 import de.malkusch.wp2ebookbot.chatbot.model.PermitPublicationService;
 
 public final class CheckInboxApplicationService {
 
-    CheckInboxApplicationService(InboxMessageRepository inbox, PermissionAnswerFactory permissionAnswerFactory,
+    CheckInboxApplicationService(InboxMessageRepository inbox, PermissionFactory permissionAnswerFactory,
             PermitPublicationService permitService) {
 
         this.inbox = inbox;
@@ -29,11 +29,11 @@ public final class CheckInboxApplicationService {
         }
     }
 
-    private final PermissionAnswerFactory permissionAnswerFactory;
+    private final PermissionFactory permissionAnswerFactory;
     private final PermitPublicationService permitService;
 
     private void checkPermissions(Collection<InboxMessage> newMessages) {
-        Collection<PermissionAnswer> permissions = permissionAnswerFactory.fromInbox(newMessages);
+        Collection<Permission> permissions = permissionAnswerFactory.fromInbox(newMessages);
         permissions.forEach(permitService::publishOnPermission);
     }
 

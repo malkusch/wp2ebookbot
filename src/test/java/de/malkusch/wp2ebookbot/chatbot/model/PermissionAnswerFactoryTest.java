@@ -14,7 +14,7 @@ import org.junit.Test;
 
 public class PermissionAnswerFactoryTest {
 
-    private PermissionAnswerFactory factory;
+    private PermissionFactory factory;
     private RedditAPI reddit;
     private static final String QUESTION = "May I publish an E-Book?";
     private static final String A_WP_TITLE = "[WP] You write a reddit bot…";
@@ -30,7 +30,7 @@ public class PermissionAnswerFactoryTest {
         WritingPrompSpecification wpSpec = new WritingPrompSpecification(new Votes(1), new Words(1), new Votes(1));
         AskPermissionService askService = new AskPermissionService(mock(WritingPromptRepository.class), wpSpec,
                 QUESTION, reddit);
-        factory = new PermissionAnswerFactory(reddit, askService);
+        factory = new PermissionFactory(reddit, askService);
     }
 
     @Test
@@ -39,9 +39,10 @@ public class PermissionAnswerFactoryTest {
         InboxMessageContext question = context(SELF, "http://example.org/question", QUESTION, topComment);
         InboxMessage answer = message(A_TOP_COMMENT.author, A_WP_TITLE, "Yes", question);
 
-        Collection<PermissionAnswer> answers = factory.fromInbox(asList(answer));
+        Collection<Permission> answers = factory.fromInbox(asList(answer));
 
-        PermissionAnswer expected = new PermissionAnswer(A_TOP_COMMENT.commentId, answer.message);
+        Permission expected = new Permission(new PermissionId(answer.commentId), A_TOP_COMMENT.commentId,
+                answer.message);
         assertEquals(asList(expected), answers);
     }
 
@@ -51,7 +52,7 @@ public class PermissionAnswerFactoryTest {
         InboxMessageContext question = context(SELF, "http://example.org/question", QUESTION, topComment);
         InboxMessage answer = message(A_TOP_COMMENT.author, "title without WP", "Yes", question);
 
-        Collection<PermissionAnswer> answers = factory.fromInbox(asList(answer));
+        Collection<Permission> answers = factory.fromInbox(asList(answer));
 
         assertTrue(answers.isEmpty());
     }
@@ -61,7 +62,7 @@ public class PermissionAnswerFactoryTest {
         InboxMessageContext topComment = A_TOP_COMMENT;
         InboxMessage answer = message(A_TOP_COMMENT.author, A_WP_TITLE, "Yes", topComment);
 
-        Collection<PermissionAnswer> answers = factory.fromInbox(asList(answer));
+        Collection<Permission> answers = factory.fromInbox(asList(answer));
 
         assertTrue(answers.isEmpty());
     }
@@ -73,7 +74,7 @@ public class PermissionAnswerFactoryTest {
                 topComment);
         InboxMessage answer = message(A_TOP_COMMENT.author, A_WP_TITLE, "Yes", question);
 
-        Collection<PermissionAnswer> answers = factory.fromInbox(asList(answer));
+        Collection<Permission> answers = factory.fromInbox(asList(answer));
 
         assertTrue(answers.isEmpty());
     }
@@ -84,7 +85,7 @@ public class PermissionAnswerFactoryTest {
         InboxMessageContext question = context(SELF, "http://example.org/question", "Wrong question", topComment);
         InboxMessage answer = message(A_TOP_COMMENT.author, A_WP_TITLE, "Yes", question);
 
-        Collection<PermissionAnswer> answers = factory.fromInbox(asList(answer));
+        Collection<Permission> answers = factory.fromInbox(asList(answer));
 
         assertTrue(answers.isEmpty());
     }
@@ -95,7 +96,7 @@ public class PermissionAnswerFactoryTest {
         InboxMessageContext question = context(SELF, "http://example.org/question", QUESTION, topComment);
         InboxMessage answer = message(new Author("http://example.org/anotherGuy"), A_WP_TITLE, "Yes", question);
 
-        Collection<PermissionAnswer> answers = factory.fromInbox(asList(answer));
+        Collection<Permission> answers = factory.fromInbox(asList(answer));
 
         assertTrue(answers.isEmpty());
     }
@@ -106,7 +107,7 @@ public class PermissionAnswerFactoryTest {
         InboxMessageContext question = context(SELF, "http://example.org/question", QUESTION, topComment);
         InboxMessage answer = message(A_TOP_COMMENT.author, A_WP_TITLE, "Yes", question);
 
-        Collection<PermissionAnswer> answers = factory.fromInbox(asList(answer));
+        Collection<Permission> answers = factory.fromInbox(asList(answer));
 
         assertTrue(answers.isEmpty());
     }
@@ -125,7 +126,8 @@ public class PermissionAnswerFactoryTest {
 
     private static InboxMessage message(Author author, String title, String message, InboxMessageContext context) {
 
-        return new InboxMessage(new InboxMessageId("http://example.org/message"), author, new Title(title), message,
+        return new InboxMessage(new InboxMessageId("http://example.org/message"),
+                new CommentId("http://example.org/message"), author, new Title(title), message,
                 Optional.ofNullable(context));
     }
 }
