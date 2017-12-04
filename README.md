@@ -13,6 +13,13 @@ See https://www.reddit.com/r/Lightbulb/comments/7cfe6r/make_a_free_ebook_for_eac
 
 - [ ] Integrate blocking Reddit API to respect their [rate limit](https://github.com/reddit/reddit/wiki/API#rules)
 
+### Integration
+
+- [ ] Choose an event handler system (e.g. Spring or Akka)
+- [ ] Implement PublicationPermitted handler in PublishCommentAsEBookApplicationService.publish()
+- [ ] Implement EBookPublished handler in PublishEBookApplicationService.publish()
+- [ ] Implement EBookRevoked handler in UnpublishEBookApplicationService.unpublish()
+
 ## E-Book generator
 
 - [x] Design model
@@ -28,5 +35,9 @@ See https://www.reddit.com/r/Lightbulb/comments/7cfe6r/make_a_free_ebook_for_eac
 - [x] Design model
 - [x] UC: Identify new comments and ask author for permission
 - [X] UC: Understand author's permission reply and start EBook publication
-- [ ] UC: Understand author's unpublish whish and start Unpublishing
+- [X] UC: Understand author's unpublish whish and start Unpublishing
+- [ ] Implement InboxMessageRepository
+- [ ] Implement NLPService
+- [ ] Implement WritingPromptRepository
+- [ ] Implement AnswerCommentService
 

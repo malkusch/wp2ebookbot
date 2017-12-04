@@ -9,10 +9,10 @@ import de.malkusch.wp2ebookbot.shared.infrastructure.event.PublishEventService;
 
 public abstract class EBookFactory {
 
-    private final PublishFormatService publisher;
+    private final PublishedFormatRepository publisher;
     private final PublishEventService eventPublisher;
 
-    protected EBookFactory(PublishFormatService publisher, PublishEventService eventPublisher) {
+    protected EBookFactory(PublishedFormatRepository publisher, PublishEventService eventPublisher) {
         this.publisher = publisher;
         this.eventPublisher = eventPublisher;
     }

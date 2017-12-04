@@ -2,8 +2,16 @@ package de.malkusch.wp2ebookbot.publisher.model;
 
 import java.io.IOException;
 
-public interface EBookRepository {
+public final class EBookRepository {
 
-    void unpublish(CommentId commentId) throws IOException;
+    private final PublishedFormatRepository publishedFormats;
+
+    EBookRepository(PublishedFormatRepository publishedFormats) {
+        this.publishedFormats = publishedFormats;
+    }
+
+    public void unpublish(CommentId id) throws IOException {
+        publishedFormats.unpublish(id);
+    }
 
 }

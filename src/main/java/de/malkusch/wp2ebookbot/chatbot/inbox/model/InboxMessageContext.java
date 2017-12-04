@@ -18,4 +18,8 @@ public final class InboxMessageContext {
         this.context = requireNonNull(context);
     }
 
+    InboxMessageContext topCommentContext() {
+        return context.map(c -> c.topCommentContext()).orElse(this);
+    }
+
 }

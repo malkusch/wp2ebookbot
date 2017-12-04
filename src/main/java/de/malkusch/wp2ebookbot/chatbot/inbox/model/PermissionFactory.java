@@ -22,11 +22,11 @@ public final class PermissionFactory {
 
     private boolean isPermissionAnswer(InboxMessage message) {
         return message.title.isWritingPrompt() && containsPermissionQuestion(message)
-                && isFromTopCommentAuthor(message);
+                && message.isFromTopCommentAuthor();
     }
 
     private Permission convert(InboxMessage message) {
-        CommentId topCommentId = topCommentContext(message).map(c -> c.commentId).get();
+        CommentId topCommentId = message.topCommentContext().map(c -> c.commentId).get();
         PermissionId permissionId = new PermissionId(message.commentId);
         return new Permission(permissionId, topCommentId, message.message);
     }
@@ -36,16 +36,8 @@ public final class PermissionFactory {
                 .filter(c -> c.author.equals(self) && new PermissionQuestion(c.message).equals(question)).isPresent();
     }
 
-    private boolean isFromTopCommentAuthor(InboxMessage message) {
-        return topCommentContext(message).map(c -> c.author).filter(message.author::equals).isPresent();
-    }
-
     private static Optional<InboxMessageContext> questionContext(InboxMessage message) {
         return message.context;
-    }
-
-    private static Optional<InboxMessageContext> topCommentContext(InboxMessage message) {
-        return message.context.flatMap(c -> c.context);
     }
 
 }

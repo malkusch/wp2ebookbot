@@ -28,4 +28,12 @@ public final class InboxMessage {
         return id;
     }
 
+    Optional<InboxMessageContext> topCommentContext() {
+        return context.map(InboxMessageContext::topCommentContext);
+    }
+
+    boolean isFromTopCommentAuthor() {
+        return topCommentContext().map(c -> c.author).filter(author::equals).isPresent();
+    }
+
 }
