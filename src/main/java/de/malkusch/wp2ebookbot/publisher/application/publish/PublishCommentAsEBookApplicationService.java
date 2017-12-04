@@ -19,9 +19,8 @@ public final class PublishCommentAsEBookApplicationService {
 
     public void publish(PublishComment command) throws CommentNotFoundException, IOException {
         CommentId commentId = new CommentId(command.commentId);
-        try (Comment comment = comments.findById(commentId).orElseThrow(CommentNotFoundException::new)) {
-            ebookFactory.publishEBook(comment);
-        }
+        Comment comment = comments.findById(commentId).orElseThrow(CommentNotFoundException::new);
+        ebookFactory.publishEBook(comment);
     }
 
 }

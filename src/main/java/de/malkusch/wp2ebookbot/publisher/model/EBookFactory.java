@@ -3,7 +3,6 @@ package de.malkusch.wp2ebookbot.publisher.model;
 import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import de.malkusch.wp2ebookbot.shared.infrastructure.event.PublishEventService;
 
@@ -30,12 +29,13 @@ public abstract class EBookFactory {
     }
 
     abstract protected UnpublishedFormat[] generateUnpublishedFormats(CommentId id, ThreadTitle title, Author author,
-            InputStream body) throws IOException;
+            String body) throws IOException;
 
     private PublishedFormat[] publish(UnpublishedFormat[] unpublished) throws IOException {
         PublishedFormat[] published = new PublishedFormat[unpublished.length];
         for (int i = 0; i < unpublished.length; i++) {
             published[i] = publisher.publish(unpublished[i]);
+            eventPublisher.publish(new FormatPublished(unpublished[i]));
         }
         return published;
     }

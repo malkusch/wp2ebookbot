@@ -26,7 +26,8 @@ See https://www.reddit.com/r/Lightbulb/comments/7cfe6r/make_a_free_ebook_for_eac
 - [x] Implement PublishRedditCommentApplicationService
 - [x] Implement UnpublishEBookApplicationService
 - [ ] Implement RedditCommentRepository
-- [ ] Implement EBookFactory for EPUB and MOBI
+- [x] Implement EBookFactory for EPUB
+- [ ] Implement EBookFactory for MOBI
 - [ ] Implement S3PublishFormatService
 - [ ] Implement an integration test for publishing a comment on S3
 
@@ -34,8 +35,8 @@ See https://www.reddit.com/r/Lightbulb/comments/7cfe6r/make_a_free_ebook_for_eac
 
 - [x] Design model
 - [x] UC: Identify new comments and ask author for permission
-- [X] UC: Understand author's permission reply and start EBook publication
-- [X] UC: Understand author's unpublish whish and start Unpublishing
+- [x] UC: Understand author's permission reply and start EBook publication
+- [x] UC: Understand author's unpublish whish and start Unpublishing
 - [ ] Implement InboxMessageRepository
 - [ ] Implement NLPService
 - [ ] Implement WritingPromptRepository

@@ -2,18 +2,15 @@ package de.malkusch.wp2ebookbot.publisher.model;
 
 import static java.util.Objects.requireNonNull;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-public final class Comment implements AutoCloseable {
+public final class Comment {
 
     final CommentId id;
     final PermissionId permissionId;
     final ThreadTitle title;
     final Author author;
-    final InputStream body;
+    final String body;
 
-    Comment(CommentId id, PermissionId permissionId, ThreadTitle title, Author author, InputStream body) {
+    Comment(CommentId id, PermissionId permissionId, ThreadTitle title, Author author, String body) {
         this.id = requireNonNull(id);
         this.permissionId = requireNonNull(permissionId);
         this.title = requireNonNull(title);
@@ -40,11 +37,6 @@ public final class Comment implements AutoCloseable {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public void close() throws IOException {
-        body.close();
     }
 
 }
