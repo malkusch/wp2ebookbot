@@ -16,12 +16,14 @@ import de.malkusch.wp2ebookbot.shared.infrastructure.event.PublishEventService;
 final class PipedEBookFactory extends EBookFactory {
 
     private final EPUBFactory epubFactory;
+    private final MOBIFactory mobiFactory;
 
-    protected PipedEBookFactory(EPUBFactory epubFactory, PublishedFormatRepository publisher,
+    protected PipedEBookFactory(EPUBFactory epubFactory, MOBIFactory mobiFactory, PublishedFormatRepository publisher,
             PublishEventService eventPublisher) {
 
         super(publisher, eventPublisher);
         this.epubFactory = epubFactory;
+        this.mobiFactory = mobiFactory;
     }
 
     @Override
@@ -29,8 +31,9 @@ final class PipedEBookFactory extends EBookFactory {
             String comment) throws IOException {
 
         UnpublishedFormat epub = epubFactory.generateEPUB(id, title, author, comment);
+        UnpublishedFormat mobi = mobiFactory.generateMOBI(epub);
 
-        return new UnpublishedFormat[] { epub };
+        return new UnpublishedFormat[] { epub, mobi };
     }
 
 }

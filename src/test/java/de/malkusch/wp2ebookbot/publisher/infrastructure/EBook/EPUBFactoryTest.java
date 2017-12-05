@@ -44,7 +44,7 @@ public class EPUBFactoryTest {
         assertTrue(epubcheck.validate());
     }
 
-    private static String body(String path) throws IOException {
+    static String body(String path) throws IOException {
         return IOUtils.toString(EPUBFactoryTest.class.getResourceAsStream(path), "UTF-8");
     }
 }

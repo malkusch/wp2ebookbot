@@ -35,6 +35,15 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.11.2</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -45,12 +54,6 @@
 			<groupId>org.idpf</groupId>
 			<artifactId>epubcheck</artifactId>
 			<version>4.0.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

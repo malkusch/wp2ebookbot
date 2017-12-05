@@ -14,4 +14,8 @@ public final class UnpublishedFormat {
         this.file = requireNonNull(file);
     }
 
+    public File file() {
+        return file;
+    }
+
 }

@@ -27,7 +27,7 @@ See https://www.reddit.com/r/Lightbulb/comments/7cfe6r/make_a_free_ebook_for_eac
 - [x] Implement UnpublishEBookApplicationService
 - [ ] Implement RedditCommentRepository
 - [x] Implement EBookFactory for EPUB
-- [ ] Implement EBookFactory for MOBI
+- [x] Implement EBookFactory for MOBI
 - [ ] Implement S3PublishFormatService
 - [ ] Implement an integration test for publishing a comment on S3
 
