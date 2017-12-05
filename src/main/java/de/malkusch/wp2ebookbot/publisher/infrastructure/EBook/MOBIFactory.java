@@ -53,7 +53,7 @@ final class MOBIFactory {
             if (process.exitValue() != 1) {
                 throw new IOException(String.format("Exit code %d: %s", process.exitValue(), stdOut));
             }
-            return new UnpublishedFormat(FormatId.MOBI, file);
+            return new UnpublishedFormat(epub.commentId(), FormatId.MOBI, file);
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

@@ -5,17 +5,27 @@ import static java.util.Objects.requireNonNull;
 import java.io.File;
 
 public final class UnpublishedFormat {
+    final CommentId commentId;
 
-    final FormatId id;
+    final FormatId formatId;
     final File file;
 
-    public UnpublishedFormat(FormatId id, File file) {
-        this.id = requireNonNull(id);
+    public UnpublishedFormat(CommentId commentId, FormatId formatId, File file) {
+        this.commentId = requireNonNull(commentId);
+        this.formatId = requireNonNull(formatId);
         this.file = requireNonNull(file);
     }
 
     public File file() {
         return file;
+    }
+
+    public CommentId commentId() {
+        return commentId;
+    }
+
+    public FormatId formatId() {
+        return formatId;
     }
 
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.helper.W3CDom;
 import org.jsoup.nodes.Document;
+import org.springframework.stereotype.Component;
 
 import de.malkusch.wp2ebookbot.publisher.model.Author;
 import de.malkusch.wp2ebookbot.publisher.model.CommentId;
@@ -24,6 +25,7 @@ import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubWriter;
 
+@Component
 final class EPUBFactory {
 
     private final Template template;
@@ -53,7 +55,7 @@ final class EPUBFactory {
             epubWriter.write(book, out);
         }
 
-        return new UnpublishedFormat(FormatId.EPUB, file);
+        return new UnpublishedFormat(id, FormatId.EPUB, file);
     }
 
     private String html(ThreadTitle title, String comment) throws IOException {

@@ -47,7 +47,8 @@ public class MOBIFactoryTest {
 
     @Test(expected = IOException.class)
     public void shouldFailOnInvalidEPUBPath() throws IOException {
-        UnpublishedFormat epub = new UnpublishedFormat(FormatId.EPUB, new File("/tmp/FiOtrAy9"));
+        UnpublishedFormat epub = new UnpublishedFormat(new CommentId("http://example.org"), FormatId.EPUB,
+                new File("/tmp/FiOtrAy9"));
         factory.generateMOBI(epub);
     }
 

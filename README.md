@@ -1,5 +1,15 @@
 See https://www.reddit.com/r/Lightbulb/comments/7cfe6r/make_a_free_ebook_for_each_wp_from_rwritingprompts/
 
+# Installation
+
+Register an account at AWS and create a S3 bucket with public read access. Create an identity with write access
+to that bucket. Set these properties in application.properties:
+
+- jclouds.identity: Access key ID
+- jclouds.credential: Secret Access key ID
+- jclouds.formats.container: bucket name
+
+
 # Roadmap
 
 ## PoC - Generate an E-Book
@@ -28,7 +38,7 @@ See https://www.reddit.com/r/Lightbulb/comments/7cfe6r/make_a_free_ebook_for_eac
 - [ ] Implement RedditCommentRepository
 - [x] Implement EBookFactory for EPUB
 - [x] Implement EBookFactory for MOBI
-- [ ] Implement S3PublishFormatService
+- [x] Implement PublishedFormatJCloudsRepository
 - [ ] Implement an integration test for publishing a comment on S3
 
 ## Reddit bot

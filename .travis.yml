@@ -1,9 +1,13 @@
 sudo: false
-
 language: java
 jdk: oraclejdk8
-
 cache:
   directories:
-    - '$HOME/.m2/repository'
+  - "$HOME/.m2/repository"
+env:
+  global:
+    - AWS_ACCESS_KEY=AKIAJ67D6MA7UGXAXELA
+    - secure: 2JNS/levIkDnHTvzcIHvC1wDScZAnuMvxsGJdFh+mmedEPvlGg6Zji/ayBZiGFTbczTjXPLoVvg7N7vkK/eIotRtWoT3qOAyU1C95zHsNRTeb0lXlmfAoXQFWt4erL3mnp+qqMnN6DGlE19ULcJqzqpER3kBd3KzahiZ3vvMS0yzcqGMOzzGq7Yd2n4Uvoj7wxjpYiQgr0W088zT0aL43OEKRXanmh9HaF49OuGwaPA7Y+Vpw4n4wOZ39mfG+PiY+jHZjIbvReQBYWSQ7H8buElH5NlZgs0Y0xqFfCLdoMoTmTYne63jYfjeWGZE1lnyEF+KbFk1268vXprbwfkSb/6MJrUO5IHO4taK1Dnb/7AMGhW7Uh9ql5D2Pq9UeMRavYELrdW1epzWGNnfJ4+O4g6UG6irB5Y6Z+V21OuP830t5I4IWDhAT5D36G6vbhIktBxtwUhkZQfIiG8JsPwebfVTDxP9/6K1Qrb8C+F28FGpAU7efuZl5OMJEfARqDx5fxyM4ASivODMPIE/QvD0/2/LK4qX+0564k9XUvtKdF1GlBMtoCv+sd+qgtkxQ/H9KvVIk3yOwGGP1p6bzNZR7UiIaMUwt2GNeOkOs5MipGerIDTRRHMHxdyhN/exz27GMI45XUzcaGqvlWIgw4N2bmC2GJ0o89099dtqyUdGm6U=
+
+script: mvn verify -Djclouds.identity=$AWS_ACCESS_KEY -Djclouds.credential=$AWS_SECRET_KEY
 
