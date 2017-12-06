@@ -14,4 +14,8 @@ public final class PublishedFormat {
         this.url = requireNonNull(url);
     }
 
+    public URL url() {
+        return url;
+    }
+
 }

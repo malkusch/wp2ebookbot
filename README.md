@@ -52,7 +52,7 @@ Set these properties in application.properties:
 - [x] Implement EBookFactory for EPUB
 - [x] Implement EBookFactory for MOBI
 - [x] Implement PublishedFormatJCloudsRepository
-- [ ] Implement an integration test for publishing a comment on S3
+- [x] Implement an integration test for publishing a comment on S3
 
 ## Reddit bot
 

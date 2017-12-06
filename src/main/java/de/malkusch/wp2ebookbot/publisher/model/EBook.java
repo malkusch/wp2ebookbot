@@ -18,4 +18,8 @@ public final class EBook {
         this.formats = formats;
     }
 
+    public PublishedFormat[] formats() {
+        return formats;
+    }
+
 }

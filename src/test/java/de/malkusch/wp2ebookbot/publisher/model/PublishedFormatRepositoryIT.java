@@ -1,13 +1,11 @@
 package de.malkusch.wp2ebookbot.publisher.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static de.malkusch.wp2ebookbot.test.UrlAssert.assertUrlExists;
+import static de.malkusch.wp2ebookbot.test.UrlAssert.assertUrlNotExists;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import org.junit.After;
 import org.junit.Test;
@@ -53,18 +51,6 @@ public class PublishedFormatRepositoryIT {
     public void unpublishShouldNotFailIfAlreadyUnpublished() throws IOException {
         repository.unpublish(COMMENT_ID);
         repository.unpublish(COMMENT_ID);
-    }
-
-    private static void assertUrlExists(URL url) throws IOException {
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("HEAD");
-        assertEquals(HttpURLConnection.HTTP_OK, con.getResponseCode());
-    }
-
-    private static void assertUrlNotExists(URL url) throws IOException {
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("HEAD");
-        assertNotEquals(HttpURLConnection.HTTP_OK, con.getResponseCode());
     }
 
     private static File anyFile() {
