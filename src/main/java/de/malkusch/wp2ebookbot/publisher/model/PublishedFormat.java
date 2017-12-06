@@ -18,4 +18,8 @@ public final class PublishedFormat {
         return url;
     }
 
+    public FormatId formatId() {
+        return id;
+    }
+
 }

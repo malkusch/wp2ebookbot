@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -100,12 +99,8 @@ class CommentRestRepository extends CommentRepository {
     private static Comment toComment(Thing apiArticle, CommentId id, Thing apiComment) {
         ThreadTitle title = new ThreadTitle(apiArticle.data.title);
         Author author = new Author(apiComment.data.author);
-        String body = unescapeBody(apiComment.data.body_html);
+        String body = apiComment.data.body_html;
         return hydrate(id, title, author, body);
-    }
-
-    private static String unescapeBody(String body) {
-        return StringEscapeUtils.unescapeHtml4(body);
     }
 
 }

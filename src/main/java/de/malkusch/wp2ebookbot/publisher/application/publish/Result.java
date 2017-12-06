@@ -12,9 +12,11 @@ public final class Result {
     public static final class Format {
 
         public final String url;
+        public final String formatId;
 
         private Format(PublishedFormat format) {
             this.url = format.url().toString();
+            this.formatId = format.formatId().toString();
         }
 
     }

@@ -1,7 +1,12 @@
 package de.malkusch.wp2ebookbot.publisher.application.publish;
 
+import static java.util.Arrays.stream;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
-import java.util.Arrays;
+import java.io.InputStream;
+import java.net.URL;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,6 +14,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.adobe.epubcheck.api.EpubCheck;
+import com.adobe.epubcheck.util.DefaultReportImpl;
 
 import de.malkusch.wp2ebookbot.publisher.model.ArticleId;
 import de.malkusch.wp2ebookbot.publisher.model.CommentId;
@@ -26,7 +34,7 @@ public class PublishCommentAsEBookApplicationServiceIT {
     @Autowired
     private PublishedFormatRepository repository;
 
-    private static final CommentId COMMENT_ID = new CommentId(new ArticleId("7hzokh"), "dquz4t2");
+    private static final CommentId COMMENT_ID = new CommentId(new ArticleId("7cv1m8"), "dpstonn");
 
     @Before
     @After
@@ -42,7 +50,18 @@ public class PublishCommentAsEBookApplicationServiceIT {
         command.permissionId = "anything";
 
         Result result = service.publish(command);
-        Arrays.stream(result.formats).map(f -> f.url).forEach(UrlAssert::assertUrlExists);
+        stream(result.formats).map(f -> f.url).forEach(UrlAssert::assertUrlExists);
+        stream(result.formats).filter(f -> f.formatId.equals("EPUB")).map(f -> f.url).forEach(this::assertValidEPUB);
+    }
+
+    private void assertValidEPUB(String url) {
+        try (InputStream in = new URL(url).openStream()) {
+            EpubCheck epubcheck = new EpubCheck(in, new DefaultReportImpl("test"), url);
+            assertTrue(epubcheck.validate());
+
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
     }
 
 }
