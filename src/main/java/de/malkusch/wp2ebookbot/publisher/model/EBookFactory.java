@@ -16,13 +16,13 @@ public abstract class EBookFactory {
         this.eventPublisher = eventPublisher;
     }
 
-    public final EBook publishEBook(Comment comment) throws IOException {
+    public final EBook publishEBook(Comment comment, PermissionId permissionId) throws IOException {
         requireNonNull(comment);
 
         UnpublishedFormat[] unpublished = generateUnpublishedFormats(comment.id, comment.title, comment.author,
                 comment.body);
         PublishedFormat[] published = publish(unpublished);
-        EBook book = new EBook(comment.id, comment.permissionId, published);
+        EBook book = new EBook(comment.id, permissionId, published);
 
         eventPublisher.publish(new EBookPublished(book));
         return book;

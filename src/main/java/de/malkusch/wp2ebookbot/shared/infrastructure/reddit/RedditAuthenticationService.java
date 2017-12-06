@@ -66,9 +66,9 @@ public final class RedditAuthenticationService {
     @JsonIgnoreProperties(ignoreUnknown = true)
     private static class AuthenticationResponse {
 
-        public @JsonProperty String access_token;
-        public @JsonProperty String token_type;
-        public @JsonProperty int expires_in;
+        private @JsonProperty String access_token;
+        private @JsonProperty String token_type;
+        private @JsonProperty int expires_in;
 
     }
 

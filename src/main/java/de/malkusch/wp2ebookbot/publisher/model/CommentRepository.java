@@ -7,10 +7,9 @@ public abstract class CommentRepository {
 
     public abstract Optional<Comment> findById(CommentId id) throws IOException;
 
-    protected final Comment hydrate(CommentId id, PermissionId permissionId, ThreadTitle title, Author author,
-            String body) {
+    protected static Comment hydrate(CommentId id, ThreadTitle title, Author author, String body) {
 
-        return new Comment(id, permissionId, title, author, body);
+        return new Comment(id, title, author, body);
     }
 
 }

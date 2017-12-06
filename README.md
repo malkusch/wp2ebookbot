@@ -48,7 +48,7 @@ Set these properties in application.properties:
 - [x] Design model
 - [x] Implement PublishRedditCommentApplicationService
 - [x] Implement UnpublishEBookApplicationService
-- [ ] Implement RedditCommentRepository
+- [x] Implement RedditCommentRepository
 - [x] Implement EBookFactory for EPUB
 - [x] Implement EBookFactory for MOBI
 - [x] Implement PublishedFormatJCloudsRepository

@@ -5,14 +5,12 @@ import static java.util.Objects.requireNonNull;
 public final class Comment {
 
     final CommentId id;
-    final PermissionId permissionId;
     final ThreadTitle title;
     final Author author;
     final String body;
 
-    Comment(CommentId id, PermissionId permissionId, ThreadTitle title, Author author, String body) {
+    Comment(CommentId id, ThreadTitle title, Author author, String body) {
         this.id = requireNonNull(id);
-        this.permissionId = requireNonNull(permissionId);
         this.title = requireNonNull(title);
         this.author = requireNonNull(author);
         this.body = requireNonNull(body);

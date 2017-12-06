@@ -4,5 +4,6 @@ public final class PublishComment {
 
     public String articleId;
     public String commentId;
+    public String permissionId;
 
 }
