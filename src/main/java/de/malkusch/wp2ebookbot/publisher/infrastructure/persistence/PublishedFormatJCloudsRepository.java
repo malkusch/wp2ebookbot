@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.jclouds.blobstore.BlobStore;
 import org.jclouds.blobstore.BlobStoreContext;
 import org.jclouds.blobstore.domain.Blob;
@@ -60,7 +59,7 @@ final class PublishedFormatJCloudsRepository implements PublishedFormatRepositor
     }
 
     private static String prefix(CommentId commentId) {
-        return DigestUtils.sha256Hex(commentId.toString());
+        return String.format("%s/%s", commentId.articleId(), commentId);
     }
 
     @Override
