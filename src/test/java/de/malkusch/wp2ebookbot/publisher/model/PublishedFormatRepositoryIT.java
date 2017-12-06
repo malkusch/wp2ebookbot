@@ -24,7 +24,7 @@ public class PublishedFormatRepositoryIT {
     @Autowired
     private PublishedFormatRepository repository;
 
-    private static final CommentId COMMENT_ID = new CommentId("http://www.example.org");
+    private static final CommentId COMMENT_ID = new CommentId(new ArticleId("7hsy5b"), "dqu6y0p");
 
     @After
     public void removeCommentId() throws IOException {

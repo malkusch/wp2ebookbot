@@ -2,6 +2,7 @@ package de.malkusch.wp2ebookbot.publisher.application.publish;
 
 import java.io.IOException;
 
+import de.malkusch.wp2ebookbot.publisher.model.ArticleId;
 import de.malkusch.wp2ebookbot.publisher.model.Comment;
 import de.malkusch.wp2ebookbot.publisher.model.CommentId;
 import de.malkusch.wp2ebookbot.publisher.model.CommentRepository;
@@ -18,7 +19,8 @@ public final class PublishCommentAsEBookApplicationService {
     }
 
     public void publish(PublishComment command) throws CommentNotFoundException, IOException {
-        CommentId commentId = new CommentId(command.commentId);
+        ArticleId articleId = new ArticleId(command.articleId);
+        CommentId commentId = new CommentId(articleId, command.commentId);
         Comment comment = comments.findById(commentId).orElseThrow(CommentNotFoundException::new);
         ebookFactory.publishEBook(comment);
     }

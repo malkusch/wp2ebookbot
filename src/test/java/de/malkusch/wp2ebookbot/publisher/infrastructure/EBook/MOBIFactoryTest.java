@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.malkusch.wp2ebookbot.publisher.model.ArticleId;
 import de.malkusch.wp2ebookbot.publisher.model.Author;
 import de.malkusch.wp2ebookbot.publisher.model.CommentId;
 import de.malkusch.wp2ebookbot.publisher.model.FormatId;
@@ -31,7 +32,7 @@ public class MOBIFactoryTest {
     @Test
     public void shouldBuildFromEPUB() throws IOException {
         EPUBFactory epubFactory = new EPUBFactory(TemplateUtils.FACTORY);
-        UnpublishedFormat epub = epubFactory.generateEPUB(new CommentId("http://example.org"),
+        UnpublishedFormat epub = epubFactory.generateEPUB(new CommentId(new ArticleId("7hsy5b"), "dqu6y0p"),
                 new ThreadTitle("A story"), new Author("A guy"), body("/commentBody.html"));
 
         UnpublishedFormat mobi = factory.generateMOBI(epub);
@@ -47,7 +48,7 @@ public class MOBIFactoryTest {
 
     @Test(expected = IOException.class)
     public void shouldFailOnInvalidEPUBPath() throws IOException {
-        UnpublishedFormat epub = new UnpublishedFormat(new CommentId("http://example.org"), FormatId.EPUB,
+        UnpublishedFormat epub = new UnpublishedFormat(new CommentId(new ArticleId("7hsy5b"), "dqu6y0p"), FormatId.EPUB,
                 new File("/tmp/FiOtrAy9"));
         factory.generateMOBI(epub);
     }

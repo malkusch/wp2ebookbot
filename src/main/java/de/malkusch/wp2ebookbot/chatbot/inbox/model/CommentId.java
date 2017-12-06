@@ -2,28 +2,26 @@ package de.malkusch.wp2ebookbot.chatbot.inbox.model;
 
 import static java.util.Objects.requireNonNull;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 public final class CommentId {
 
     private final String id;
+    private final ArticleId articleId;
 
-    public CommentId(String id) {
-        this.id = requireNonNull(id);
-        if (!isValid(id)) {
-            throw new IllegalArgumentException("Invalid comment id");
+    public CommentId(ArticleId articleId, String id) {
+        this.articleId = requireNonNull(articleId);
+
+        if (requireNonNull(id.isEmpty())) {
+            throw new IllegalArgumentException("Comment id must not be empty");
         }
+        this.id = id;
     }
 
-    private static boolean isValid(String id) {
-        try {
-            new URL(id);
-            return true;
+    public String fullname() {
+        return "t1_" + id;
+    }
 
-        } catch (MalformedURLException e) {
-            return false;
-        }
+    public ArticleId articleId() {
+        return articleId;
     }
 
     @Override
@@ -33,14 +31,14 @@ public final class CommentId {
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return articleId.hashCode() + id.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof CommentId) {
             CommentId other = (CommentId) obj;
-            return id.equals(other.id);
+            return id.equals(other.id) && articleId.equals(other.articleId);
 
         } else {
             return false;

@@ -113,13 +113,14 @@ public class RevocationFactoryTest {
     private static InboxMessageContext context(Author author, String commentId, String comment,
             InboxMessageContext context) {
 
-        return new InboxMessageContext(author, new CommentId(commentId), comment, Optional.ofNullable(context));
+        return new InboxMessageContext(author, new CommentId(new ArticleId("7hsy5b"), commentId), comment,
+                Optional.ofNullable(context));
     }
 
     private static InboxMessage message(Author author, String title, String message, InboxMessageContext context) {
 
         return new InboxMessage(new InboxMessageId("http://example.org/message"),
-                new CommentId("http://example.org/message"), author, new Title(title), message,
+                new CommentId(new ArticleId("7hsy5b"), "7hsy5b"), author, new Title(title), message,
                 Optional.ofNullable(context));
     }
 }

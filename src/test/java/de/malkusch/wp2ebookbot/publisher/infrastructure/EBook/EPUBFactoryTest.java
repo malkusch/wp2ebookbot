@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import com.adobe.epubcheck.api.EpubCheck;
 
+import de.malkusch.wp2ebookbot.publisher.model.ArticleId;
 import de.malkusch.wp2ebookbot.publisher.model.Author;
 import de.malkusch.wp2ebookbot.publisher.model.CommentId;
 import de.malkusch.wp2ebookbot.publisher.model.ThreadTitle;
@@ -28,7 +29,7 @@ public class EPUBFactoryTest {
 
     @Test
     public void shouldGenerateValidEPUB() throws IOException {
-        UnpublishedFormat unpublished = factory.generateEPUB(new CommentId("http://example.org"),
+        UnpublishedFormat unpublished = factory.generateEPUB(new CommentId(new ArticleId("7hsy5b"), "dqu6y0p"),
                 new ThreadTitle("A story"), new Author("A guy"), body("/commentBody.html"));
 
         EpubCheck epubcheck = new EpubCheck(getFile(unpublished));
@@ -37,7 +38,7 @@ public class EPUBFactoryTest {
 
     @Test
     public void shouldTolerateInvalidCommentHTML() throws IOException {
-        UnpublishedFormat unpublished = factory.generateEPUB(new CommentId("http://example.org"),
+        UnpublishedFormat unpublished = factory.generateEPUB(new CommentId(new ArticleId("7hsy5b"), "dqu6y0p"),
                 new ThreadTitle("A story"), new Author("A guy"), body("/invalidCommentBody.html"));
 
         EpubCheck epubcheck = new EpubCheck(getFile(unpublished));
