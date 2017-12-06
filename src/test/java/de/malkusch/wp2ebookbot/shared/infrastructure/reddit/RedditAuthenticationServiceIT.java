@@ -16,7 +16,7 @@ import de.malkusch.wp2ebookbot.test.IntegrationTest;
 public class RedditAuthenticationServiceIT {
 
     @Autowired
-    private RedditAuthenticationService service;
+    private AuthenticationService service;
 
     @Test
     public void shouldAuthenticate() {

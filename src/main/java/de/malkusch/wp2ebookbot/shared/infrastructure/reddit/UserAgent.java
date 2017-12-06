@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class RedditBotUserAgent {
+final class UserAgent {
 
     private final String userAgent;
 
-    RedditBotUserAgent(@Value("${reddit.userAgent}") String userAgent) {
+    UserAgent(@Value("${reddit.userAgent}") String userAgent) {
         this.userAgent = userAgent;
     }
 

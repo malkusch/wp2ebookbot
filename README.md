@@ -34,7 +34,7 @@ Set these properties in application.properties:
 
 ## Shared
 
-- [ ] Integrate blocking Reddit API to respect their [rate limit](https://github.com/reddit/reddit/wiki/API#rules)
+- [x] Integrate blocking Reddit API to respect their [rate limit](https://github.com/reddit/reddit/wiki/API#rules)
 
 ### Integration
 

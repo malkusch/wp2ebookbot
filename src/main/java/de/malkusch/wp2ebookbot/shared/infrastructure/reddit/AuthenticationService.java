@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Service
-public final class RedditAuthenticationService {
+final class AuthenticationService {
 
     private volatile Authentication authentication;
     private final ScheduledExecutorService scheduler;
@@ -37,13 +37,13 @@ public final class RedditAuthenticationService {
     private final String password;
     private final RestTemplate restTemplate;
     private final URI authenticationEndpoint;
-    private final RedditBotRateLimitService rateLimiter;
-    private static final Logger LOGGER = LoggerFactory.getLogger(RedditAuthenticationService.class);
+    private final RateLimitService rateLimiter;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationService.class);
 
-    RedditAuthenticationService(@Value("${reddit.auth.username}") String username,
+    AuthenticationService(@Value("${reddit.auth.username}") String username,
             @Value("${reddit.auth.password}") String password, @Value("${reddit.auth.clientId}") String clientId,
             @Value("${reddit.auth.clientSecret}") String clientSecret, CloseableHttpClient httpClient,
-            RedditBotRateLimitService rateLimiter, RestTemplateBuilder builder,
+            RateLimitService rateLimiter, RestTemplateBuilder builder,
             @Value("${reddit.auth.uri}") URI authenticationEndpoint) throws IOException {
 
         this.username = username;

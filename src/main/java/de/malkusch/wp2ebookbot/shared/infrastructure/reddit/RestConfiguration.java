@@ -17,7 +17,7 @@ class RestConfiguration {
     @Bean
     CloseableHttpClient httpClient(@Value("${reddit.httpClient.maxTotal}") int maxTotal,
             @Value("${reddit.httpClient.maxPerRoute}") int maxPerRoute,
-            @Value("${reddit.timeoutSeconds}") int timeoutSeconds, RedditBotUserAgent userAgent) {
+            @Value("${reddit.timeoutSeconds}") int timeoutSeconds, UserAgent userAgent) {
 
         RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(timeoutSeconds * 1000)
                 .setConnectTimeout(timeoutSeconds * 1000).build();

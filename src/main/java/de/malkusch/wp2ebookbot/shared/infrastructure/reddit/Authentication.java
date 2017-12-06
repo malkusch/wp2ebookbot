@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.time.Instant;
 
-public final class Authentication {
+final class Authentication {
 
     private final String token;
     private final String type;

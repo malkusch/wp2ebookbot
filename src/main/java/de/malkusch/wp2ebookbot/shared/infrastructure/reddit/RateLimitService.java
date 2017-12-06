@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import com.revinate.guava.util.concurrent.RateLimiter;
 
 @Service
-public final class RedditBotRateLimitService {
+final class RateLimitService {
 
     private final RateLimiter limiter;
 
-    RedditBotRateLimitService(@Value("${reddit.requestsPerSecond}") int requestsPerSecond) {
+    RateLimitService(@Value("${reddit.requestsPerSecond}") int requestsPerSecond) {
         limiter = RateLimiter.create(requestsPerSecond);
     }
 

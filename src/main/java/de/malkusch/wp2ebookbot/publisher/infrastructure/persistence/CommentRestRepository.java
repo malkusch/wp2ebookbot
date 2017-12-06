@@ -11,14 +11,10 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestClientResponseException;
-import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,24 +24,16 @@ import de.malkusch.wp2ebookbot.publisher.model.Comment;
 import de.malkusch.wp2ebookbot.publisher.model.CommentId;
 import de.malkusch.wp2ebookbot.publisher.model.CommentRepository;
 import de.malkusch.wp2ebookbot.publisher.model.ThreadTitle;
-import de.malkusch.wp2ebookbot.shared.infrastructure.reddit.Authentication;
-import de.malkusch.wp2ebookbot.shared.infrastructure.reddit.RedditAuthenticationService;
-import de.malkusch.wp2ebookbot.shared.infrastructure.reddit.RedditBotRateLimitService;
+import de.malkusch.wp2ebookbot.shared.infrastructure.reddit.RedditRestTemplate;
 
 @Service
 class CommentRestRepository extends CommentRepository {
 
-    private final RedditAuthenticationService authenticationService;
-    private final RestTemplate restTemplate;
-    private final RedditBotRateLimitService rateLimiter;
+    private final RedditRestTemplate restTemplate;
     private final String commentsEndpoint;
 
-    CommentRestRepository(RedditAuthenticationService authenticationService, RedditBotRateLimitService rateLimiter,
-            RestTemplate restTemplate, @Value("${reddit.comments.uri}") String commentsEndpoint) {
-
-        this.authenticationService = authenticationService;
+    CommentRestRepository(RedditRestTemplate restTemplate, @Value("${reddit.comments.uri}") String commentsEndpoint) {
         this.restTemplate = restTemplate;
-        this.rateLimiter = rateLimiter;
         this.commentsEndpoint = commentsEndpoint;
     }
 
@@ -81,13 +69,6 @@ class CommentRestRepository extends CommentRepository {
     @Override
     @Retryable(IOException.class)
     public Optional<Comment> findById(CommentId id) throws IOException {
-        rateLimiter.limitRate();
-
-        Authentication authentication = authenticationService.getAuthentication();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", authentication.toString());
-        HttpEntity<?> entity = new HttpEntity<>(headers);
-
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("articleId", id.articleId());
         parameters.put("commentId", id);
@@ -95,8 +76,7 @@ class CommentRestRepository extends CommentRepository {
         parameters.put("depth", 1);
 
         try {
-            Thing[] response = restTemplate
-                    .exchange(commentsEndpoint, HttpMethod.GET, entity, Thing[].class, parameters).getBody();
+            Thing[] response = restTemplate.getForObject(commentsEndpoint, Thing[].class, parameters);
 
             Optional<Thing> apiArticle = stream(response).flatMap(Thing::flatThings)
                     .filter(t -> t.matches("t3", id.articleId().toString())).findAny();
