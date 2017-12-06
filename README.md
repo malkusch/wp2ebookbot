@@ -2,12 +2,25 @@ See https://www.reddit.com/r/Lightbulb/comments/7cfe6r/make_a_free_ebook_for_eac
 
 # Installation
 
+## AWS
+
 Register an account at AWS and create a S3 bucket with public read access. Create an identity with write access
 to that bucket. Set these properties in application.properties:
 
 - jclouds.identity: Access key ID
 - jclouds.credential: Secret Access key ID
 - jclouds.formats.container: bucket name
+
+
+## Reddit
+
+Register an account at reddit. Create an application as described in https://github.com/reddit/reddit/wiki/OAuth2-Quick-Start-Example.
+Set these properties in application.properties:
+
+- reddit.auth.username: user name
+- reddit.auth.password: password
+- reddit.auth.clientId: App's client id
+- reddit.auth.clientSecret: App's client secret
 
 
 # Roadmap
@@ -25,7 +38,7 @@ to that bucket. Set these properties in application.properties:
 
 ### Integration
 
-- [ ] Choose an event handler system (e.g. Spring or Akka)
+- [x] Choose an event handler system (e.g. Spring or Akka)
 - [ ] Implement PublicationPermitted handler in PublishCommentAsEBookApplicationService.publish()
 - [ ] Implement EBookPublished handler in PublishEBookApplicationService.publish()
 - [ ] Implement EBookRevoked handler in UnpublishEBookApplicationService.unpublish()
