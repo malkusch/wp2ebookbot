@@ -5,7 +5,6 @@ import static java.util.Arrays.stream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import de.malkusch.wp2ebookbot.chatbot.outbox.model.ArticleId;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.CommentId;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.EBook;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.Format;
@@ -23,8 +22,7 @@ public final class PublishEBookApplicationService {
     }
 
     public void publish(EBookPublished event) {
-        ArticleId articleId = new ArticleId(event.articleId);
-        Permission permission = new Permission(new CommentId(articleId, event.permissionId));
+        Permission permission = new Permission(new CommentId(event.permissionId));
         Format[] formats = stream(event.formats).map(this::convert).toArray(Format[]::new);
         EBook book = new EBook(permission, formats);
 

@@ -5,11 +5,8 @@ import static java.util.Objects.requireNonNull;
 public final class CommentId {
 
     private final String id;
-    private final ArticleId articleId;
 
-    public CommentId(ArticleId articleId, String id) {
-        this.articleId = requireNonNull(articleId);
-
+    public CommentId(String id) {
         if (requireNonNull(id.isEmpty())) {
             throw new IllegalArgumentException("Comment id must not be empty");
         }
@@ -20,10 +17,6 @@ public final class CommentId {
         return "t1_" + id;
     }
 
-    public ArticleId articleId() {
-        return articleId;
-    }
-
     @Override
     public String toString() {
         return id;
@@ -31,14 +24,14 @@ public final class CommentId {
 
     @Override
     public int hashCode() {
-        return articleId.hashCode() + id.hashCode();
+        return id.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof CommentId) {
             CommentId other = (CommentId) obj;
-            return id.equals(other.id) && articleId.equals(other.articleId);
+            return id.equals(other.id);
 
         } else {
             return false;
