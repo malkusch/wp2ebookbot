@@ -15,14 +15,14 @@ import de.malkusch.wp2ebookbot.chatbot.outbox.model.CommentId;
 @Service
 final class RetryService {
 
-    private final RestService rest;
+    private final RestService service;
     private final RetryTemplate retry;
 
-    RetryService(RestService rest, @Value("${reddit.comment.initialBackOffSeconds}") int initialBackOffSeconds,
+    RetryService(RestService service, @Value("${reddit.comment.initialBackOffSeconds}") int initialBackOffSeconds,
             @Value("${reddit.comment.maxBackOffSeconds}") int maxBackOffSeconds,
             @Value("${reddit.comment.retries}") int retries) {
 
-        this.rest = rest;
+        this.service = service;
 
         retry = new RetryTemplate();
 
@@ -37,7 +37,7 @@ final class RetryService {
     }
 
     Permalink answerComment(CommentId parent, String response) throws IOException {
-        return retry.execute(c -> rest.answerComment(parent, response));
+        return retry.execute(c -> service.answerComment(parent, response));
     }
 
 }

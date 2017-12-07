@@ -63,5 +63,5 @@ Set these properties in application.properties:
 - [ ] Implement InboxMessageRepository
 - [ ] Implement NLPService
 - [ ] Implement WritingPromptRepository
-- [ ] Implement AnswerCommentService
+- [x] Implement AnswerCommentService
 
