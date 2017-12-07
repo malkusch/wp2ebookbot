@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -20,12 +21,12 @@ import de.malkusch.wp2ebookbot.chatbot.outbox.model.CommentId;
 import de.malkusch.wp2ebookbot.shared.infrastructure.reddit.RedditRestTemplate;
 
 @Service
-final class AnswerCommentRestService {
+final class RestService {
 
     private final RedditRestTemplate restTemplate;
     private final URI commentEndpoint;
 
-    AnswerCommentRestService(RedditRestTemplate restTemplate, @Value("${reddit.comment.uri}") URI commentEndpoint) {
+    RestService(RedditRestTemplate restTemplate, @Value("${reddit.comment.uri}") URI commentEndpoint) {
         this.restTemplate = restTemplate;
         this.commentEndpoint = commentEndpoint;
     }
@@ -41,6 +42,15 @@ final class AnswerCommentRestService {
             checkError(result);
             return new Permalink(result.json.data.things[0].data.permalink);
 
+        } catch (HttpServerErrorException e) {
+            throw new RetryableIOException(e);
+
+        } catch (HttpClientErrorException e) {
+            if (e.getRawStatusCode() == 429) {
+                throw new RetryableIOException(e);
+            }
+            throw new IOException(e);
+
         } catch (RestClientException e) {
             throw new IOException(e);
         }
@@ -51,13 +61,20 @@ final class AnswerCommentRestService {
         if (error.isEmpty()) {
             return;
         }
-
-        Optional<?> ratelimit = stream(result.json.errors).filter(e -> e[0].equals("RATELIMIT")).findAny();
-        if (ratelimit.isPresent()) {
-            throw new RateLimitException(error);
+        if (containsError(result, "RATELIMIT")) {
+            throw new RetryableIOException(error);
         }
-
+        if (containsError(result, "NO_TEXT")) {
+            throw new IllegalArgumentException(error);
+        }
+        if (containsError(result, "TOO_OLD")) {
+            throw new IllegalArgumentException(error);
+        }
         throw new IOException(error);
+    }
+
+    private static boolean containsError(Result result, String error) {
+        return stream(result.json.errors).filter(e -> e[0].equals(error)).findAny().isPresent();
     }
 
     static final class Permalink {
