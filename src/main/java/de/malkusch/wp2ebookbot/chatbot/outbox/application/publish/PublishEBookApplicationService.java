@@ -5,14 +5,16 @@ import static java.util.Arrays.stream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.springframework.stereotype.Service;
+
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.CommentId;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.EBook;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.Format;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.FormatId;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.Permission;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.PublishEBookService;
-import de.malkusch.wp2ebookbot.publisher.model.EBookPublished;
 
+@Service
 public final class PublishEBookApplicationService {
 
     private final PublishEBookService publishService;
@@ -21,15 +23,15 @@ public final class PublishEBookApplicationService {
         this.publishService = publishService;
     }
 
-    public void publish(EBookPublished event) {
-        Permission permission = new Permission(new CommentId(event.permissionId));
-        Format[] formats = stream(event.formats).map(this::convert).toArray(Format[]::new);
+    public void publish(Publish command) {
+        Permission permission = new Permission(new CommentId(command.permissionId));
+        Format[] formats = stream(command.formats).map(this::convert).toArray(Format[]::new);
         EBook book = new EBook(permission, formats);
 
         publishService.publish(book);
     }
 
-    private Format convert(EBookPublished.Format format) {
+    private Format convert(Publish.Format format) {
         try {
             return new Format(new FormatId(format.id), new URL(format.url));
         } catch (MalformedURLException e) {

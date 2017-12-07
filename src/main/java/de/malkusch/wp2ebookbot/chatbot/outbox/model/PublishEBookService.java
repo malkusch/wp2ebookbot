@@ -6,7 +6,7 @@ public abstract class PublishEBookService {
 
     private final AnswerCommentService reddit;
 
-    PublishEBookService(AnswerCommentService reddit) {
+    protected PublishEBookService(AnswerCommentService reddit) {
         this.reddit = reddit;
     }
 

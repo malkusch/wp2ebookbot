@@ -14,4 +14,12 @@ public final class Format {
         this.url = requireNonNull(url);
     }
 
+    public FormatId id() {
+        return id;
+    }
+
+    public URL url() {
+        return url;
+    }
+
 }

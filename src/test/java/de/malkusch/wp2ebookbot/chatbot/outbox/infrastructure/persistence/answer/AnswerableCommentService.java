@@ -18,7 +18,7 @@ import de.malkusch.wp2ebookbot.chatbot.outbox.model.CommentId;
 import de.malkusch.wp2ebookbot.shared.infrastructure.reddit.RedditRestTemplate;
 
 @Service
-final class AnswerableCommentService {
+public final class AnswerableCommentService {
 
     @Autowired
     private RedditRestTemplate restTemplate;
