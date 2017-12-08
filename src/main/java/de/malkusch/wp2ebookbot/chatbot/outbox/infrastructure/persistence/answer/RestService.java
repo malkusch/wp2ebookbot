@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -25,6 +27,7 @@ final class RestService {
 
     private final RedditRestTemplate restTemplate;
     private final URI commentEndpoint;
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestService.class);
 
     RestService(RedditRestTemplate restTemplate, @Value("${reddit.comment.uri}") URI commentEndpoint) {
         this.restTemplate = restTemplate;
@@ -40,7 +43,9 @@ final class RestService {
 
             Result result = restTemplate.postForObject(commentEndpoint, data, Result.class);
             checkError(result);
-            return new Permalink(result.json.data.things[0].data.permalink);
+            Permalink link = new Permalink(result.json.data.things[0].data.permalink);
+            LOGGER.debug("Answer published: {}", link.link);
+            return link;
 
         } catch (HttpServerErrorException e) {
             throw new RetryableIOException(e);
