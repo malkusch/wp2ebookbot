@@ -59,9 +59,9 @@ Set these properties in application.properties:
 - [x] Design model
 - [x] UC: Identify new comments and ask author for permission
 - [x] UC: Understand author's permission reply and start EBook publication
-- [x] UC: Understand author's unpublish whish and start Unpublishing
+- [x] UC: Understand author's unpublish wish and start Unpublishing
 - [ ] Implement InboxMessageRepository
 - [ ] Implement NLPService
-- [ ] Implement WritingPromptRepository
+- [x] Implement WritingPromptRepository
 - [x] Implement AnswerCommentService
 

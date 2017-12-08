@@ -5,7 +5,7 @@ import java.time.Instant;
 
 public abstract class WritingPromptRepository {
 
-    public abstract WritingPrompt[] findEligibleWritingPromptsSince(Instant since, WritingPrompSpecification wpSpec)
+    public abstract WritingPrompt[] findEligibleWritingPromptsSince(Instant since, WritingPrompSpecification hint)
             throws IOException;
 
     protected final Comment hydrateComment(CommentId id, Votes votes, Words words) {

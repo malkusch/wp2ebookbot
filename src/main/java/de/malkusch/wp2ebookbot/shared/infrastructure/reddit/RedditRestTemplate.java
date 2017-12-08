@@ -1,6 +1,7 @@
 package de.malkusch.wp2ebookbot.shared.infrastructure.reddit;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpEntity;
@@ -42,6 +43,10 @@ public final class RedditRestTemplate {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
         return restTemplate.postForObject(url, request, responseType);
+    }
+
+    public <T> T getForObject(String url, Class<T> responseType) throws RestClientException {
+        return getForObject(url, responseType, new HashMap<>());
     }
 
     public <T> T getForObject(String url, Class<T> responseType, Map<String, ?> uriVariables)

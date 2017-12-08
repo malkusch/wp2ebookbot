@@ -11,7 +11,7 @@ public final class AskPermissionService {
     private final WritingPrompSpecification wpSpec;
     private final AnswerCommentService reddit;
     final String question;
-    private Instant lastSince;
+    private volatile Instant lastSince;
 
     AskPermissionService(WritingPromptRepository writingPrompts, WritingPrompSpecification wpSpec, String question,
             AnswerCommentService reddit) {

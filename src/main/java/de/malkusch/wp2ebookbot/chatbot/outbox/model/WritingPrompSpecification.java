@@ -16,9 +16,17 @@ public final class WritingPrompSpecification {
 
     public boolean IsSatisfiedBy(WritingPrompt writingPrompt) {
         requireNonNull(writingPrompt);
-        return writingPrompt.votes.count >= minWritingPromptVotes.count
-                && writingPrompt.topComment.words.count >= minCommentWords.count
-                && writingPrompt.topComment.votes.count >= minCommentVotes.count;
+        return isSatisfiedByWritingPromptVotes(writingPrompt.votes) && isSatisfiedBy(writingPrompt.topComment);
+    }
+
+    public boolean isSatisfiedByWritingPromptVotes(Votes votes) {
+        requireNonNull(votes);
+        return votes.count >= minWritingPromptVotes.count;
+    }
+
+    public boolean isSatisfiedBy(Comment comment) {
+        requireNonNull(comment);
+        return comment.words.count >= minCommentWords.count && comment.votes.count >= minCommentVotes.count;
     }
 
 }
