@@ -20,4 +20,9 @@ public final class WritingPrompt {
         this.title = requireNonNull(title);
     }
 
+    @Override
+    public String toString() {
+        return topComment.toString();
+    }
+
 }
