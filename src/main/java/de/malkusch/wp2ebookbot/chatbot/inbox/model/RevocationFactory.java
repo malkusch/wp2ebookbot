@@ -10,7 +10,7 @@ public final class RevocationFactory {
 
     private final Author self;
 
-    RevocationFactory(Author self) {
+    public RevocationFactory(Author self) {
         this.self = self;
     }
 

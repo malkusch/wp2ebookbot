@@ -1,4 +1,4 @@
-package de.malkusch.wp2ebookbot.chatbot.inbox.model;
+package de.malkusch.wp2ebookbot.shared.infrastructure.reddit;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,17 +12,17 @@ import de.malkusch.wp2ebookbot.test.IntegrationTest;
 
 @IntegrationTest
 @RunWith(SpringRunner.class)
-public class PermissionFactoryIT {
+public class SelfIT {
 
     @Autowired
-    private PermissionFactory factory;
+    private Self self;
 
     @Value("${reddit.auth.username}")
-    private String self;
+    private String expectedSelf;
 
     @Test
     public void selfShouldBeAuthenticatedUser() {
-        assertEquals(new Author(self), factory.self);
+        assertEquals(new Self(expectedSelf), self);
     }
 
 }
