@@ -104,12 +104,10 @@ final class RestService {
 
                 private static class Thing {
 
-                    private String kind;
                     private Data data;
 
                     private static class Data {
 
-                        private String id;
                         private String permalink;
 
                     }

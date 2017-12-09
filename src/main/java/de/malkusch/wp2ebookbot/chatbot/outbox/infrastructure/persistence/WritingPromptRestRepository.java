@@ -159,7 +159,6 @@ final class WritingPromptRestRepository extends WritingPromptRepository {
 
                     private String id;
                     private int created_utc;
-                    private String name;
                     private String title;
                     private int num_comments;
                     private int score;
