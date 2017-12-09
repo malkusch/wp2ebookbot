@@ -15,9 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestClientResponseException;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import de.malkusch.wp2ebookbot.publisher.model.Author;
 import de.malkusch.wp2ebookbot.publisher.model.Comment;
 import de.malkusch.wp2ebookbot.publisher.model.CommentId;
@@ -36,20 +33,18 @@ class CommentRestRepository extends CommentRepository {
         this.commentsEndpoint = commentsEndpoint;
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class Thing {
 
-        private @JsonProperty String kind;
-        private @JsonProperty Data data;
+        private String kind;
+        private Data data;
 
-        @JsonIgnoreProperties(ignoreUnknown = true)
         private static class Data {
 
-            private @JsonProperty String id;
-            private @JsonProperty String title;
-            private @JsonProperty String author;
-            private @JsonProperty String body_html;
-            private @JsonProperty Thing[] children;
+            private String id;
+            private String title;
+            private String author;
+            private String body_html;
+            private Thing[] children;
         }
 
         private boolean matches(String kind, String id) {

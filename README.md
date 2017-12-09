@@ -60,7 +60,7 @@ Set these properties in application.properties:
 - [x] UC: Identify new comments and ask author for permission
 - [x] UC: Understand author's permission reply and start EBook publication
 - [x] UC: Understand author's unpublish wish and start Unpublishing
-- [ ] Implement InboxMessageRepository
+- [x] Implement InboxMessageRepository
 - [ ] Implement NLPService
 - [x] Implement WritingPromptRepository
 - [x] Implement AnswerCommentService

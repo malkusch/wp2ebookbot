@@ -10,13 +10,13 @@ public abstract class InboxMessageRepository {
 
     public abstract void markRead(InboxMessageId id) throws IOException;
 
-    protected final InboxMessage hydrateInboxMessage(InboxMessageId id, CommentId commentId, Author author, Title title,
-            String message, Optional<InboxMessageContext> context) {
+    protected static InboxMessage hydrateInboxMessage(InboxMessageId id, Author author, Title title, String message,
+            Optional<InboxMessageContext> context) {
 
-        return new InboxMessage(id, commentId, author, title, message, context);
+        return new InboxMessage(id, author, title, message, context);
     }
 
-    protected final InboxMessageContext hydrateContext(Author author, CommentId commentId, String message,
+    protected static InboxMessageContext hydrateContext(Author author, CommentId commentId, String message,
             Optional<InboxMessageContext> context) {
 
         return new InboxMessageContext(author, commentId, message, context);

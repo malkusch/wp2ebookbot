@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.CommentId;
 import de.malkusch.wp2ebookbot.shared.infrastructure.reddit.RedditRestTemplate;
 
@@ -43,17 +40,15 @@ public final class AnswerableCommentService {
                 .findAny().orElseThrow(IllegalStateException::new);
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class Thing {
 
-        private @JsonProperty String kind;
-        private @JsonProperty Data data;
+        private String kind;
+        private Data data;
 
-        @JsonIgnoreProperties(ignoreUnknown = true)
         private static class Data {
 
-            private @JsonProperty String id;
-            private @JsonProperty Thing[] children;
+            private String id;
+            private Thing[] children;
 
         }
 
@@ -79,26 +74,22 @@ public final class AnswerableCommentService {
                 .orElseThrow(IllegalStateException::new);
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class NewArticlesResponse {
 
-        private @JsonProperty Data data;
+        private Data data;
 
-        @JsonIgnoreProperties(ignoreUnknown = true)
         private static class Data {
 
-            private @JsonProperty Thing[] children;
+            private Thing[] children;
 
-            @JsonIgnoreProperties(ignoreUnknown = true)
             private static class Thing {
 
-                private @JsonProperty ThingData data;
+                private ThingData data;
 
-                @JsonIgnoreProperties(ignoreUnknown = true)
                 private static class ThingData {
 
-                    private @JsonProperty String id;
-                    private @JsonProperty int num_comments;
+                    private String id;
+                    private int num_comments;
 
                 }
 

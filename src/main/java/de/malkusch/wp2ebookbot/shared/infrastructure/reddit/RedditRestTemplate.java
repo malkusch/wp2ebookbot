@@ -29,6 +29,10 @@ public final class RedditRestTemplate {
         this.rateLimiter = rateLimiter;
     }
 
+    public <T> T postForObject(String url, Map<String, ?> data, Class<T> responseType) throws RestClientException {
+        return postForObject(URI.create(url), data, responseType);
+    }
+
     public <T> T postForObject(URI url, Map<String, ?> data, Class<T> responseType) throws RestClientException {
         rateLimiter.limitRate();
 

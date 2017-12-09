@@ -25,9 +25,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Service
 final class AuthenticationService {
 
@@ -63,12 +60,11 @@ final class AuthenticationService {
         return builder.requestFactory(requestFactory).basicAuthorization(clientId, clientSecret).build();
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class AuthenticationResponse {
 
-        private @JsonProperty String access_token;
-        private @JsonProperty String token_type;
-        private @JsonProperty int expires_in;
+        private String access_token;
+        private String token_type;
+        private int expires_in;
 
     }
 

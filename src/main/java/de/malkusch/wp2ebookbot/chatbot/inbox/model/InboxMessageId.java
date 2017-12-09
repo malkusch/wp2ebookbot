@@ -4,30 +4,31 @@ import static java.util.Objects.requireNonNull;
 
 public final class InboxMessageId {
 
-    private final String id;
+    final CommentId commentId;
 
-    public InboxMessageId(String id) {
-        if (requireNonNull(id).isEmpty()) {
-            throw new IllegalArgumentException("Invalid inbox message id");
-        }
-        this.id = requireNonNull(id);
+    public InboxMessageId(CommentId id) {
+        this.commentId = requireNonNull(id);
+    }
+
+    public CommentId commentId() {
+        return commentId;
     }
 
     @Override
     public String toString() {
-        return id;
+        return commentId.toString();
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return commentId.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof InboxMessageId) {
             InboxMessageId other = (InboxMessageId) obj;
-            return id.equals(other.id);
+            return commentId.equals(other.commentId);
 
         } else {
             return false;

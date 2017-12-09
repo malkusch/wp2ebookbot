@@ -20,7 +20,7 @@ public final class RevocationFactory {
 
     private Revocation convert(InboxMessage message) {
         CommentId topCommentId = message.topCommentContext().map(c -> c.commentId).get();
-        RevocationId id = new RevocationId(message.commentId);
+        RevocationId id = new RevocationId(message.id.commentId);
         return new Revocation(id, topCommentId, message.message);
     }
 

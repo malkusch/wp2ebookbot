@@ -27,7 +27,7 @@ public final class PermissionFactory {
 
     private Permission convert(InboxMessage message) {
         CommentId topCommentId = message.topCommentContext().map(c -> c.commentId).get();
-        PermissionId permissionId = new PermissionId(message.commentId);
+        PermissionId permissionId = new PermissionId(message.id.commentId);
         return new Permission(permissionId, topCommentId, message.message);
     }
 

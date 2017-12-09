@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 public final class CommentId {
 
     private final String id;
-    private final ArticleId articleId;
+    final ArticleId articleId;
 
     public CommentId(ArticleId articleId, String id) {
         this.articleId = requireNonNull(articleId);
@@ -16,12 +16,12 @@ public final class CommentId {
         this.id = id;
     }
 
-    public String fullname() {
-        return "t1_" + id;
-    }
-
     public ArticleId articleId() {
         return articleId;
+    }
+
+    public String fullname() {
+        return "t1_" + id;
     }
 
     @Override

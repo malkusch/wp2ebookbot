@@ -32,7 +32,7 @@ public class PermissionFactoryTest {
 
         Collection<Permission> answers = factory.fromInbox(asList(answer));
 
-        Permission expected = new Permission(new PermissionId(answer.commentId), A_TOP_COMMENT.commentId,
+        Permission expected = new Permission(new PermissionId(answer.id.commentId), A_TOP_COMMENT.commentId,
                 answer.message);
         assertEquals(asList(expected), answers);
     }
@@ -118,8 +118,7 @@ public class PermissionFactoryTest {
 
     private static InboxMessage message(Author author, String title, String message, InboxMessageContext context) {
 
-        return new InboxMessage(new InboxMessageId("http://example.org/message"),
-                new CommentId(new ArticleId("7hsy5b"), "dqu6y0p"), author, new Title(title), message,
-                Optional.ofNullable(context));
+        return new InboxMessage(new InboxMessageId(new CommentId(new ArticleId("7hsy5b"), "dqu6y0p")), author,
+                new Title(title), message, Optional.ofNullable(context));
     }
 }

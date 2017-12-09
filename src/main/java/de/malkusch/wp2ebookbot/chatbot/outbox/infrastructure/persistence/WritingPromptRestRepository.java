@@ -14,9 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.Comment;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.CommentId;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.Title;
@@ -26,6 +23,7 @@ import de.malkusch.wp2ebookbot.chatbot.outbox.model.WritingPrompSpecification;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.WritingPrompt;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.WritingPromptId;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.WritingPromptRepository;
+import de.malkusch.wp2ebookbot.shared.infrastructure.StreamUtil;
 import de.malkusch.wp2ebookbot.shared.infrastructure.reddit.RedditRestTemplate;
 
 @Service
@@ -48,7 +46,7 @@ final class WritingPromptRestRepository extends WritingPromptRepository {
         try {
             IncompleteWritingPrompt[] incomplete = newEligibleWritingPrompts(since, hint);
             WritingPrompt[] newPrompts = stream(incomplete).map(wp -> this.withTopComment(wp, hint))
-                    .flatMap(this::streamopt).toArray(WritingPrompt[]::new);
+                    .flatMap(StreamUtil::optionalStream).toArray(WritingPrompt[]::new);
             return newPrompts;
 
         } catch (RestClientException e) {
@@ -91,21 +89,19 @@ final class WritingPromptRestRepository extends WritingPromptRepository {
         return new Words(body.split("\\s+").length);
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class Thing {
 
-        private @JsonProperty String kind;
-        private @JsonProperty Data data;
+        private String kind;
+        private Data data;
 
-        @JsonIgnoreProperties(ignoreUnknown = true)
         private static class Data {
 
-            private @JsonProperty String id;
-            private @JsonProperty int depth;
-            private @JsonProperty int score;
-            private @JsonProperty String body;
-            private @JsonProperty boolean stickied;
-            private @JsonProperty Thing[] children;
+            private String id;
+            private int depth;
+            private int score;
+            private String body;
+            private boolean stickied;
+            private Thing[] children;
 
         }
 
@@ -147,30 +143,26 @@ final class WritingPromptRestRepository extends WritingPromptRepository {
 
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class NewWritingPrompts {
 
-        private @JsonProperty Data data;
+        private Data data;
 
-        @JsonIgnoreProperties(ignoreUnknown = true)
         private static class Data {
 
-            private @JsonProperty Thing[] children;
+            private Thing[] children;
 
-            @JsonIgnoreProperties(ignoreUnknown = true)
             private static class Thing {
 
-                private @JsonProperty ThingData data;
+                private ThingData data;
 
-                @JsonIgnoreProperties(ignoreUnknown = true)
                 private static class ThingData {
 
-                    private @JsonProperty String id;
-                    private @JsonProperty int created_utc;
-                    private @JsonProperty String name;
-                    private @JsonProperty String title;
-                    private @JsonProperty int num_comments;
-                    private @JsonProperty int score;
+                    private String id;
+                    private int created_utc;
+                    private String name;
+                    private String title;
+                    private int num_comments;
+                    private int score;
 
                 }
 
@@ -178,13 +170,6 @@ final class WritingPromptRestRepository extends WritingPromptRepository {
 
         }
 
-    }
-
-    private <T> Stream<T> streamopt(Optional<T> opt) {
-        if (opt.isPresent())
-            return Stream.of(opt.get());
-        else
-            return Stream.empty();
     }
 
 }

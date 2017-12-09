@@ -16,9 +16,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.CommentId;
 import de.malkusch.wp2ebookbot.shared.infrastructure.reddit.RedditRestTemplate;
 
@@ -92,33 +89,28 @@ final class RestService {
 
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class Result {
 
-        private @JsonProperty JSON json;
+        private JSON json;
 
-        @JsonIgnoreProperties(ignoreUnknown = true)
         private static class JSON {
 
-            private @JsonProperty String[][] errors;
-            private @JsonProperty Things data;
+            private String[][] errors;
+            private Things data;
 
-            @JsonIgnoreProperties(ignoreUnknown = true)
             private static class Things {
 
-                private @JsonProperty Thing[] things;
+                private Thing[] things;
 
-                @JsonIgnoreProperties(ignoreUnknown = true)
                 private static class Thing {
 
-                    private @JsonProperty String kind;
-                    private @JsonProperty Data data;
+                    private String kind;
+                    private Data data;
 
-                    @JsonIgnoreProperties(ignoreUnknown = true)
                     private static class Data {
 
-                        private @JsonProperty String id;
-                        private @JsonProperty String permalink;
+                        private String id;
+                        private String permalink;
 
                     }
                 }

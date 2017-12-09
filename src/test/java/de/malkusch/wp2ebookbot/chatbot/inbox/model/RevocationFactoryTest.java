@@ -33,7 +33,7 @@ public class RevocationFactoryTest {
 
         Collection<Revocation> revocations = factory.fromInbox(asList(revocation));
 
-        Revocation expected = new Revocation(new RevocationId(revocation.commentId), topComment.commentId,
+        Revocation expected = new Revocation(new RevocationId(revocation.id.commentId), topComment.commentId,
                 revocation.message);
         assertEquals(asList(expected), revocations);
     }
@@ -119,8 +119,7 @@ public class RevocationFactoryTest {
 
     private static InboxMessage message(Author author, String title, String message, InboxMessageContext context) {
 
-        return new InboxMessage(new InboxMessageId("http://example.org/message"),
-                new CommentId(new ArticleId("7hsy5b"), "7hsy5b"), author, new Title(title), message,
-                Optional.ofNullable(context));
+        return new InboxMessage(new InboxMessageId(new CommentId(new ArticleId("7hsy5b"), "7hsy5b")), author,
+                new Title(title), message, Optional.ofNullable(context));
     }
 }
