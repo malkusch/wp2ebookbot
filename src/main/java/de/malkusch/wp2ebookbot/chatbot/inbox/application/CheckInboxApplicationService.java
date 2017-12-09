@@ -3,6 +3,9 @@ package de.malkusch.wp2ebookbot.chatbot.inbox.application;
 import java.io.IOException;
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.malkusch.wp2ebookbot.chatbot.inbox.model.InboxMessage;
 import de.malkusch.wp2ebookbot.chatbot.inbox.model.InboxMessageRepository;
 import de.malkusch.wp2ebookbot.chatbot.inbox.model.Permission;
@@ -13,6 +16,8 @@ import de.malkusch.wp2ebookbot.chatbot.inbox.model.RevocationFactory;
 import de.malkusch.wp2ebookbot.chatbot.inbox.model.RevokeService;
 
 public final class CheckInboxApplicationService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CheckInboxApplicationService.class);
 
     CheckInboxApplicationService(InboxMessageRepository inbox, PermissionFactory permissionFactory,
             PermitPublicationService permitService, RevocationFactory revocationFactory, RevokeService revokeService) {
@@ -28,6 +33,7 @@ public final class CheckInboxApplicationService {
 
     public void checkInbox() throws IOException {
         Collection<InboxMessage> newMessages = inbox.fetchNewMessages();
+        LOGGER.info("Received {} new messages from inbox", newMessages.size());
 
         checkPermissions(newMessages);
         checkRevocations(newMessages);

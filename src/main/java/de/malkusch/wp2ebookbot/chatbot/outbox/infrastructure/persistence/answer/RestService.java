@@ -41,7 +41,7 @@ final class RestService {
             Result result = restTemplate.postForObject(commentEndpoint, data, Result.class);
             checkError(result);
             Permalink link = new Permalink(result.json.data.things[0].data.permalink);
-            LOGGER.debug("Answer published: {}", link.link);
+            LOGGER.info("Answered {}: {}", parent, link.link);
             return link;
 
         } catch (HttpServerErrorException e) {

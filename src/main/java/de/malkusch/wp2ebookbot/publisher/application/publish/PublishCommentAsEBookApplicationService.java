@@ -2,6 +2,8 @@ package de.malkusch.wp2ebookbot.publisher.application.publish;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import de.malkusch.wp2ebookbot.publisher.model.ArticleId;
@@ -17,6 +19,7 @@ public final class PublishCommentAsEBookApplicationService {
 
     private final EBookFactory ebookFactory;
     private final CommentRepository comments;
+    private final static Logger LOGGER = LoggerFactory.getLogger(PublishCommentAsEBookApplicationService.class);
 
     PublishCommentAsEBookApplicationService(EBookFactory ebookFactory, CommentRepository comments) {
         this.ebookFactory = ebookFactory;
@@ -29,6 +32,7 @@ public final class PublishCommentAsEBookApplicationService {
         PermissionId permissionId = new PermissionId(command.permissionId);
         Comment comment = comments.findById(commentId).orElseThrow(CommentNotFoundException::new);
 
+        LOGGER.info("Publishing {}/{}", articleId, commentId);
         EBook ebook = ebookFactory.publishEBook(comment, permissionId);
         return new Result(ebook);
     }

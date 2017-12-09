@@ -26,7 +26,9 @@ final class AsyncAnswerCommentService implements AnswerCommentService {
     @Override
     public void answerComment(CommentId parent, String response) {
         try {
+            LOGGER.info("Enqueing answer of {}", parent);
             service.answerComment(parent, response);
+
         } catch (IOException e) {
             LOGGER.error("Failed to answer " + parent, e);
         }
