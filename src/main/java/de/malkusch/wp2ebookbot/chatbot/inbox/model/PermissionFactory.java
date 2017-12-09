@@ -9,9 +9,9 @@ import java.util.Optional;
 public final class PermissionFactory {
 
     private final PermissionQuestion question;
-    private final Author self;
+    final Author self;
 
-    PermissionFactory(PermissionQuestion question, Author self) {
+    public PermissionFactory(PermissionQuestion question, Author self) {
         this.question = question;
         this.self = self;
     }
