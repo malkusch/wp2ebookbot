@@ -25,6 +25,8 @@ public class InboxMessageRepositoryIT {
     @Autowired
     private InboxTestService testService;
 
+    private static final String SUBREDDIT = "test";
+
     @Before
     public void markInboxRead() throws IOException {
         Collection<InboxMessage> newMessages;
@@ -37,7 +39,7 @@ public class InboxMessageRepositoryIT {
 
     @Test
     public void shouldFindNewMessages() throws IOException {
-        InboxMessageId unreadMessageId = testService.anyUnreadMessage();
+        InboxMessageId unreadMessageId = testService.anyUnreadMessage(SUBREDDIT);
         Collection<InboxMessage> newMessages = messages.fetchNewMessages();
         assertTrue(newMessages.stream().map(InboxMessage::id).anyMatch(unreadMessageId::equals));
     }
@@ -51,7 +53,7 @@ public class InboxMessageRepositoryIT {
 
     @Test
     public void readMessageShouldNotBeFound() throws IOException {
-        InboxMessageId messageId = testService.anyUnreadMessage();
+        InboxMessageId messageId = testService.anyUnreadMessage(SUBREDDIT);
         messages.markRead(messageId);
         Collection<InboxMessage> newMessages = messages.fetchNewMessages();
         assertFalse(newMessages.stream().map(InboxMessage::id).anyMatch(messageId::equals));

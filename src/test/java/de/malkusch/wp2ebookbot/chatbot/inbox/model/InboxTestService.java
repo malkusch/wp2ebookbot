@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -19,8 +20,8 @@ final class InboxTestService {
     @Autowired
     private RedditRestTemplate restTemplate;
 
-    InboxMessageId anyUnreadMessage() {
-        InboxMessageId anyMessage = anyInboxMessage();
+    InboxMessageId anyUnreadMessage(String subreddit) {
+        InboxMessageId anyMessage = anyInboxMessage(subreddit);
         unread(anyMessage.commentId.fullname());
         return anyMessage;
     }
@@ -30,9 +31,11 @@ final class InboxTestService {
     @Value("${reddit.inbox.context.path}")
     private UriTemplate contextPath;
 
-    private InboxMessageId anyInboxMessage() {
+    private InboxMessageId anyInboxMessage(String subreddit) {
         Inbox inbox = restTemplate.getForObject(INBOX_ENDPOINT, Inbox.class);
-        return Arrays.stream(inbox.data.children).filter(t -> t.kind.equals("t1")).map(this::toId).findAny().get();
+        return Arrays.stream(inbox.data.children)
+                .filter(t -> t.kind.equals("t1") && StringUtils.equals(t.data.subreddit, subreddit)).map(this::toId)
+                .findAny().get();
     }
 
     private InboxMessageId toId(Inbox.InboxData.Thing thing) {
@@ -58,6 +61,7 @@ final class InboxTestService {
 
                     private String id;
                     private String context;
+                    private String subreddit;
 
                 }
 
