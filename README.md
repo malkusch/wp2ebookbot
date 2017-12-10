@@ -11,7 +11,6 @@ to that bucket. Set these properties in application.properties:
 - jclouds.credential: Secret Access key ID
 - jclouds.formats.container: bucket name
 
-
 ## Reddit
 
 Register an account at reddit. Create an application as described in https://github.com/reddit/reddit/wiki/OAuth2-Quick-Start-Example.
@@ -22,7 +21,6 @@ Set these properties in application.properties:
 - reddit.auth.clientId: App's client id
 - reddit.auth.clientSecret: App's client secret
 
-
 # Roadmap
 
 ## PoC - Generate an E-Book
@@ -30,7 +28,6 @@ Set these properties in application.properties:
 - [x] Convert [a comment](https://www.reddit.com/r/WritingPrompts/comments/7cev3m/wp_seeing_success_with_the_purchase_of_marvel_and/dppezxn/) into an EPUB book (See 
 [epublib](http://search.maven.org/#search%7Cga%7C1%7Cepublib)
 - [x] Convert EPUB into AZW (See [Calibre](https://www.calibre-ebook.com/) or [KindleGen](https://www.amazon.com/gp/feature.html?docId=1000234621))
-
 
 ## Shared
 
@@ -65,3 +62,7 @@ Set these properties in application.properties:
 - [x] Implement WritingPromptRepository
 - [x] Implement AnswerCommentService
 
+# License and authors
+
+This project is free and under the WTFPL.
+Responsible for this project is Markus Malkusch markus@malkusch.de.
