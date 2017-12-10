@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,11 +33,13 @@ public final class AnswerableCommentService {
     private String anyCommentId(String articleId) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("articleId", articleId);
-        parameters.put("truncate", 1);
+        parameters.put("truncate", 5);
         parameters.put("depth", 1);
         parameters.put("commentId", null);
         Thing[] comments = restTemplate.getForObject(commentsEndpoint, Thing[].class, parameters);
-        return stream(comments).flatMap(Thing::flatThings).filter(t -> t.kind.equals("t1")).map(t -> t.data.id)
+
+        return stream(comments).flatMap(Thing::flatThings)
+                .filter(t -> t.kind.equals("t1") && !StringUtils.equals(t.data.body, "[deleted]")).map(t -> t.data.id)
                 .findAny().orElseThrow(IllegalStateException::new);
     }
 
@@ -49,6 +52,7 @@ public final class AnswerableCommentService {
 
             private String id;
             private Thing[] children;
+            private String body;
 
         }
 
