@@ -16,6 +16,7 @@ import org.springframework.web.client.RestClientException;
 
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.Comment;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.CommentId;
+import de.malkusch.wp2ebookbot.chatbot.outbox.model.TimeWindow;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.Title;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.Votes;
 import de.malkusch.wp2ebookbot.chatbot.outbox.model.Words;
@@ -40,11 +41,11 @@ final class WritingPromptRestRepository extends WritingPromptRepository {
     }
 
     @Override
-    public WritingPrompt[] findEligibleWritingPromptsSince(Instant since, WritingPrompSpecification hint)
+    public WritingPrompt[] findEligibleWritingPromptsSince(TimeWindow window, WritingPrompSpecification hint)
             throws IOException {
 
         try {
-            IncompleteWritingPrompt[] incomplete = newEligibleWritingPrompts(since, hint);
+            IncompleteWritingPrompt[] incomplete = newEligibleWritingPrompts(window, hint);
             WritingPrompt[] newPrompts = stream(incomplete).map(wp -> this.withTopComment(wp, hint))
                     .flatMap(StreamUtil::optionalStream).toArray(WritingPrompt[]::new);
             return newPrompts;
@@ -55,8 +56,8 @@ final class WritingPromptRestRepository extends WritingPromptRepository {
     }
 
     private Optional<WritingPrompt> withTopComment(IncompleteWritingPrompt incomplete, WritingPrompSpecification hint) {
-        return findEligibleTopComment(incomplete, hint)
-                .map(c -> hydrateWritingPrompt(incomplete.id, incomplete.title, incomplete.votes, c));
+        return findEligibleTopComment(incomplete, hint).map(
+                c -> hydrateWritingPrompt(incomplete.id, incomplete.created, incomplete.title, incomplete.votes, c));
     }
 
     private final String commentsEndpoint;
@@ -116,10 +117,10 @@ final class WritingPromptRestRepository extends WritingPromptRepository {
 
     private final String wpEndpoint;
 
-    private IncompleteWritingPrompt[] newEligibleWritingPrompts(Instant since, WritingPrompSpecification wpSpec) {
+    private IncompleteWritingPrompt[] newEligibleWritingPrompts(TimeWindow window, WritingPrompSpecification wpSpec) {
         NewWritingPrompts writingPrompts = restTemplate.getForObject(wpEndpoint, NewWritingPrompts.class);
         return stream(writingPrompts.data.children).filter(t -> t.data.num_comments > 2)
-                .map(IncompleteWritingPrompt::new).filter(wp -> wp.isEligible(since, wpSpec))
+                .map(IncompleteWritingPrompt::new).filter(wp -> wp.isEligible(window, wpSpec))
                 .toArray(IncompleteWritingPrompt[]::new);
     }
 
@@ -137,8 +138,8 @@ final class WritingPromptRestRepository extends WritingPromptRepository {
             created = Instant.ofEpochSecond(thing.data.created_utc);
         }
 
-        private boolean isEligible(Instant since, WritingPrompSpecification wpSpec) {
-            return created.isAfter(since) && title.isWritingPrompt() && wpSpec.isSatisfiedByWritingPromptVotes(votes);
+        private boolean isEligible(TimeWindow window, WritingPrompSpecification wpSpec) {
+            return window.includes(created) && title.isWritingPrompt() && wpSpec.isSatisfiedByWritingPromptVotes(votes);
         }
 
     }

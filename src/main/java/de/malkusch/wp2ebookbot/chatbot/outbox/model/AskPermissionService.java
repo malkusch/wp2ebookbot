@@ -4,6 +4,7 @@ import static java.util.Arrays.stream;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ public final class AskPermissionService {
     private final WritingPrompSpecification wpSpec;
     private final AnswerCommentService reddit;
     final String question;
-    private volatile Instant lastSince;
+    private volatile TimeWindow lastTimeWindow;
     private static Logger LOGGER = LoggerFactory.getLogger(AskPermissionService.class);
 
     public AskPermissionService(WritingPromptRepository writingPrompts, WritingPrompSpecification wpSpec,
@@ -24,15 +25,32 @@ public final class AskPermissionService {
         this.wpSpec = wpSpec;
         this.question = question;
         this.reddit = reddit;
-        this.lastSince = Instant.now();
+        this.lastTimeWindow = new TimeWindow(Instant.now(), Instant.now());
     }
 
     public void askNewTopCommentsAuthorForPermission() throws IOException {
-        WritingPrompt[] newWPs = writingPrompts.findEligibleWritingPromptsSince(lastSince, wpSpec);
-        LOGGER.info("Found {} new WritingPrompts since {}", newWPs.length, lastSince);
-        lastSince = Instant.now();
+        Optional<TimeWindow> window = nextWindow();
+        if (!window.isPresent()) {
+            return;
+        }
+
+        WritingPrompt[] newWPs = writingPrompts.findEligibleWritingPromptsSince(window.get(), wpSpec);
+        LOGGER.info("Found {} new WritingPrompts in {}", newWPs.length, window.get());
+        lastTimeWindow = window.get();
 
         stream(newWPs).filter(wpSpec::IsSatisfiedBy).forEach(this::ask);
+    }
+
+    private Optional<TimeWindow> nextWindow() {
+        Instant until = Instant.now().minus(wpSpec.minWritingPromptAge);
+        if (until.isAfter(Instant.now())) {
+            return Optional.empty();
+        }
+        if (!until.isAfter(lastTimeWindow.exclusiveUntil)) {
+            return Optional.empty();
+        }
+        return Optional.of(lastTimeWindow.adjacentUntilExclusively(until));
+
     }
 
     private void ask(WritingPrompt wp) {

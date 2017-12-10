@@ -2,6 +2,7 @@ package de.malkusch.wp2ebookbot.chatbot.outbox.infrastructure;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,9 @@ class AskPermissionServiceConfiguration {
     @Value("${reddit.wp.minCommentVotes}")
     private int minCommentVotes;
 
+    @Value("${reddit.wp.minAge}")
+    private String minAge;
+
     @Bean
     public AskPermissionService AskPermissionService(WritingPromptRepository writingPrompts,
             TemplateFactory templateFactory, AnswerCommentService reddit) throws TemplateException, IOException {
@@ -39,7 +43,7 @@ class AskPermissionServiceConfiguration {
         }
 
         WritingPrompSpecification spec = new WritingPrompSpecification(new Votes(minWritingPromptVotes),
-                new Words(minCommentWords), new Votes(minCommentVotes));
+                Duration.parse(minAge), new Words(minCommentWords), new Votes(minCommentVotes));
 
         return new AskPermissionService(writingPrompts, spec, question, reddit);
     }
