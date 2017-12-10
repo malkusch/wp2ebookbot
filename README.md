@@ -1,5 +1,12 @@
 See https://www.reddit.com/r/Lightbulb/comments/7cfe6r/make_a_free_ebook_for_each_wp_from_rwritingprompts/
 
+# Premature termination
+
+This project was terminated prematurely. During the very first round of permission questions, the mods of /r/WritingPrompts
+did ban the bot. I was told that I should've asked the community first if there is acceptance. I couldn't convince
+the mods to let me ask them after the fact. Unless anybody else can ask if /r/WritingPrompts wants an E-Book bot, there
+is no reason for me to finish this project.
+
 # Installation
 
 ## AWS
