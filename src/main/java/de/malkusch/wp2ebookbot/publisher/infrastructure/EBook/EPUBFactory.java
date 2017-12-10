@@ -37,7 +37,7 @@ final class EPUBFactory {
     UnpublishedFormat generateEPUB(CommentId id, ThreadTitle title, Author author, String comment) throws IOException {
         File file = File.createTempFile("wp2ebookbot-", ".epub");
         /*
-         * I*m deliberately not calling file.deleteOnExit(). This would create a
+         * I'm deliberately not calling file.deleteOnExit(). This would create a
          * memory leak, as this bot creates endless files. deleteOnExit()
          * attaches each path to a list which would then grow infinitely. The
          * bot takes care about deletion itself within
